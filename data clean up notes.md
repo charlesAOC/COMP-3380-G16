@@ -22,3 +22,7 @@
 ### Constructor_results
 
 * removed status column
+
+### Constructor_standings
+
+* removed potion_text column
