@@ -17,7 +17,7 @@
 * Don’t worry too much about optimizing your queries, as long as they run in a reasonable amount of time. However, consider informing the user with a message of some kind if a query is currently being executed (so that they don’t think your interface has crashed).
 * **Consider letting the user enter parameters for your queries.**
 * **Content from all tables should be accessible one way or another. This might mean you have some simple queries in addition to the queries above.**
-* Results from queries should be easy for an analyst to parse. Results should have a logical ordering, be neatly organized into columns, be labelled with column headings, and have a limited number of tuples **(or use paging) to prevent results from scrolling out of view.**
+* Results from queries should be easy for an analyst to parse. **Results should have a logical ordering, be neatly organized into columns, be labelled with column headings, and have a limited number of tuples (or use paging) to prevent results from scrolling out of view.**
 * **The interface should provide a way to delete all data from your database, and a way to repopulate it.**
 * You will show that **your project is robust against invalid input** and SQL injection.
 
