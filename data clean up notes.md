@@ -42,3 +42,8 @@
 ### qualifying
 
 * removed all "\N" with excel remove all functionality
+
+### results
+
+* removed position_text, time column
+* removed all "\N" with excel remove all functionality
