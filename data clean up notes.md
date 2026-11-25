@@ -38,3 +38,7 @@
 ### pit_stops
 
 * removed time and duration column
+
+### qualifying
+
+* removed all "\N" with excel remove all functionality
