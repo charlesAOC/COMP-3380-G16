@@ -30,3 +30,7 @@
 ### Driver_standings
 
 * removed potion_text column
+
+### lap_times
+
+* removed time column
