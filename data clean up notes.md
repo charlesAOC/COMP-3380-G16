@@ -34,3 +34,7 @@
 ### lap_times
 
 * removed time column
+
+### pit_stops
+
+* removed time and duration column
