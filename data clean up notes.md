@@ -26,3 +26,7 @@
 ### Constructor_standings
 
 * removed potion_text column
+
+### Driver_standings
+
+* removed potion_text column
