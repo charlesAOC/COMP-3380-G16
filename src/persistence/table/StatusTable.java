@@ -29,7 +29,7 @@ public class StatusTable implements F1Table {
                         BEGIN
                             CREATE TABLE %<s.status (
                                 statusId INT          PRIMARY KEY NOT NULL,
-                                status   VARCHAR (%d) NOT NULL
+                                status   VARCHAR (%d) NOT NULL UNIQUE
                             );
                         END
                 """.formatted(username, Constants.MAX_COLUMN_LENGTH);

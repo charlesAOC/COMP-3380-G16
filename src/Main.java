@@ -7,6 +7,9 @@ import java.util.Properties;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import persistence.table.CircuitTable;
+import persistence.table.ConstructorTable;
+import persistence.table.StatusTable;
 
 /**
  * Main activity for the application
@@ -55,6 +58,10 @@ public class Main {
 
             // initialize the connection
             Connection connection = DBConnection.InitConnection(connectionUrl);
+
+            ConstructorTable.CreateTable();
+            CircuitTable.CreateTable();
+            StatusTable.CreateTable();
 
             // close the connection
             connection.close();

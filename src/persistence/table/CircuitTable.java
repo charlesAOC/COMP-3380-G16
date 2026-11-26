@@ -30,8 +30,8 @@ public class CircuitTable implements F1Table {
                         circuitId  INT          PRIMARY KEY NOT NULL,
                         circuitRef VARCHAR (%d) NOT NULL UNIQUE,
                         name       VARCHAR (%<d) NOT NULL UNIQUE,
-                        location   VARCHAR (%<d) NOT NULL UNIQUE,
-                        country    VARCHAR (%<d) NOT NULL UNIQUE,
+                        location   VARCHAR (%<d) NOT NULL,
+                        country    VARCHAR (%<d) NOT NULL,
                         lat        INT          NOT NULL,
                         lng        INT          NOT NULL,
                         alt        INT          NOT NULL
