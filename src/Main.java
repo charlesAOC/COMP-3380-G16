@@ -8,6 +8,7 @@ import java.util.Properties;
 import logic.AccountHelper;
 import logic.DBConnection;
 import logic.TableServices;
+import persistence.table.ConstructorTable;
 import persistence.table.StatusTable;
 
 /**
@@ -61,7 +62,7 @@ public class Main {
             // create tables if they arent already created
             TableServices.CreateTables();
 
-            new StatusTable().insertData();
+            new ConstructorTable().insertData();
 
             // close the connection
             connection.close();
