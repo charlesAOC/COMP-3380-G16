@@ -11,6 +11,7 @@ import logic.TableServices;
 import persistence.table.ConstructorResultTable;
 import persistence.table.ConstructorStandingTable;
 import persistence.table.DriverStandingTable;
+import persistence.table.LapTimeTable;
 
 /**
  * Main activity for the application
@@ -70,7 +71,8 @@ public class Main {
             // new RaceTable().insertData();
             // new ConstructorResultTable().insertData();
             // new ConstructorStandingTable().insertData();
-            new DriverStandingTable().insertData();
+            // new DriverStandingTable().insertData();
+            new LapTimeTable().insertData();
 
             // close the connection
             connection.close();
