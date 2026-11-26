@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import logic.AccountHelper;
 import logic.DBConnection;
 
 /**
@@ -49,6 +50,9 @@ public class Main {
                 + "loginTimeout=30;";
 
         try {
+            // set username
+            AccountHelper.setUsername(username);
+
             // initialize the connection
             Connection connection = DBConnection.InitConnection(connectionUrl);
 
