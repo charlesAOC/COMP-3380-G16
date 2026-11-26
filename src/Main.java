@@ -11,6 +11,7 @@ import persistence.table.CircuitTable;
 import persistence.table.ConstructorResultTable;
 import persistence.table.ConstructorStandingTable;
 import persistence.table.ConstructorTable;
+import persistence.table.DriverStandingTable;
 import persistence.table.DriverTable;
 import persistence.table.RaceTable;
 import persistence.table.StatusTable;
@@ -70,6 +71,7 @@ public class Main {
             RaceTable.CreateTable();
             ConstructorResultTable.CreateTable();
             ConstructorStandingTable.CreateTable();
+            DriverStandingTable.CreateTable();
 
             // close the connection
             connection.close();

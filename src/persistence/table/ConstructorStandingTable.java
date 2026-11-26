@@ -12,6 +12,11 @@ import logic.DBConnection;
  */
 public class ConstructorStandingTable implements F1Table {
 
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#createTable()
+     */
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
