@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 
-import javax.xml.crypto.Data;
-
 import logic.AccountHelper;
 import logic.DBConnection;
 import logic.util.Constants;
