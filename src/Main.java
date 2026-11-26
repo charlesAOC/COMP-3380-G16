@@ -15,6 +15,7 @@ import persistence.table.DriverStandingTable;
 import persistence.table.DriverTable;
 import persistence.table.LapTimeTable;
 import persistence.table.PitStopTable;
+import persistence.table.QualifyingTable;
 import persistence.table.RaceTable;
 import persistence.table.StatusTable;
 
@@ -76,6 +77,7 @@ public class Main {
             DriverStandingTable.CreateTable();
             LapTimeTable.CreateTable();
             PitStopTable.CreateTable();
+            QualifyingTable.CreateTable();
 
             // close the connection
             connection.close();
