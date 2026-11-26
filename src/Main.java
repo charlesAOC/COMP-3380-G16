@@ -10,6 +10,7 @@ import logic.DBConnection;
 import persistence.table.CircuitTable;
 import persistence.table.ConstructorTable;
 import persistence.table.DriverTable;
+import persistence.table.RaceTable;
 import persistence.table.StatusTable;
 
 /**
@@ -64,6 +65,7 @@ public class Main {
             CircuitTable.CreateTable();
             StatusTable.CreateTable();
             DriverTable.CreateTable();
+            RaceTable.CreateTable();
 
             // close the connection
             connection.close();
