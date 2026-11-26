@@ -1,3 +1,7 @@
 auth.cfg
 
 *.class
+
+.vscode
+
+*.sql
