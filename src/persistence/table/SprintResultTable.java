@@ -49,13 +49,4 @@ public class SprintResultTable implements F1Table {
         stmt.execute(str);
     }
 
-    /**
-     * staic method for creating the sprint results table
-     * 
-     * @throws SQLException
-     */
-    public static void CreateTable() throws SQLException {
-        new SprintResultTable().createTable();
-    }
-
 }

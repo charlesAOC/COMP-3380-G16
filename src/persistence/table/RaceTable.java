@@ -42,14 +42,4 @@ public class RaceTable implements F1Table {
         Statement stmt = DBConnection.GetConnection().createStatement();
         stmt.execute(str);
     }
-
-    /**
-     * staic method for creating the race table
-     * 
-     * @throws SQLException
-     */
-    public static void CreateTable() throws SQLException {
-        new RaceTable().createTable();
-    }
-
 }
