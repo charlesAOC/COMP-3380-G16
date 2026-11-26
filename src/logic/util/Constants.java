@@ -9,4 +9,7 @@ public class Constants {
 
     // the max length for columns
     public static final int MAX_COLUMN_LENGTH = 50;
+
+    // path to the dataset (csv files)
+    public static final String DATASET_PATH = "dataset/";
 }

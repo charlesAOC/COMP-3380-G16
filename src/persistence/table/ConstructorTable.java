@@ -34,4 +34,10 @@ public class ConstructorTable implements F1Table {
         Statement stmt = DBConnection.GetConnection().createStatement();
         stmt.execute(str);
     }
+
+    @Override
+    public void insertData() throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'insertData'");
+    }
 }

@@ -49,4 +49,10 @@ public class SprintResultTable implements F1Table {
         stmt.execute(str);
     }
 
+    @Override
+    public void insertData() throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'insertData'");
+    }
+
 }

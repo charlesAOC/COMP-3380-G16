@@ -1,6 +1,12 @@
 package persistence.table;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -41,6 +47,66 @@ public class StatusTable implements F1Table {
         // create and execute statement
         Statement stm = connection.createStatement();
         stm.execute(str);
+
+    }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @throws IOException
+     * 
+     * @see persistence.table.F1Table#insertData()
+     */
+    @Override
+    public void insertData() throws SQLException {
+
+        // insert query
+        String str = """
+                INSERT  INTO %s.status (
+                    statusId,
+                    status
+                )
+                VALUES (?, ?);
+                        """.formatted(AccountHelper.getUsername());
+        ;
+
+        // prepared statement to be executed
+        Connection connection = DBConnection.GetConnection();
+        PreparedStatement stmt = connection.prepareStatement(str);
+
+        // begin transaction
+        connection.setAutoCommit(false);
+
+        try {
+            // initialize reader
+            BufferedReader reader = Files.newBufferedReader(Path.of(Constants.DATASET_PATH + "status.csv"),
+                    StandardCharsets.UTF_8);
+
+            // read header row
+            String line = reader.readLine();
+
+            // loop through the csv file
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                stmt.setInt(1, Integer.parseInt(columns[0]));
+                stmt.setString(2, columns[1]);
+                stmt.executeUpdate();
+            }
+
+            // close reader
+            reader.close();
+
+            // commit the transaction if no error occured (end transaction)
+            connection.commit();
+        } catch (SQLException | IOException e) {
+
+            // roll back if any error occurs
+            connection.rollback();
+        } finally {
+
+            // reset auto commit
+            connection.setAutoCommit(true);
+        }
 
     }
 }
