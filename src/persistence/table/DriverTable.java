@@ -22,7 +22,7 @@ public class DriverTable implements F1Table {
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
 
-        // create statement for circuite table
+        // create statement for driver table
         String str = """
                 IF OBJECT_ID(N'%s.driver', N'U') IS NULL
                 BEGIN

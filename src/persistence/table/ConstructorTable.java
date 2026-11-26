@@ -17,7 +17,7 @@ public class ConstructorTable implements F1Table {
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
 
-        // create statement for circuite table
+        // create statement for constructor table
         String str = """
                 IF OBJECT_ID(N'%s.constructor', N'U') IS NULL
                 BEGIN
