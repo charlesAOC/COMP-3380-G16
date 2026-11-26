@@ -1,5 +1,12 @@
 # F1 Project
 
+## Requirements
+
+- Java
+- GNU Make
+- SQL server JAR file
+- config file
+
 ## How to run/test the project
 
 - add config file.
