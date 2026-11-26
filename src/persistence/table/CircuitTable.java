@@ -7,8 +7,17 @@ import logic.AccountHelper;
 import logic.DBConnection;
 import logic.util.Constants;
 
+/**
+ * CircuitTable
+ * class to manage the circuits table
+ */
 public class CircuitTable implements F1Table {
 
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#createTable()
+     */
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
