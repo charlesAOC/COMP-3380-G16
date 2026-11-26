@@ -1,5 +1,13 @@
 package persistence.table;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -44,7 +52,62 @@ public class DriverTable implements F1Table {
 
     @Override
     public void insertData() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertData'");
+
+        // insert query
+        String str = """
+                INSERT  INTO %s.driver (
+                    driverId,
+                    driverRef,
+                    forename,
+                    surname,
+                    dob,
+                    nationality
+                )
+                VALUES (?, ?, ?, ?, ?, ?);
+                        """.formatted(AccountHelper.getUsername());
+        ;
+
+        // prepared statement to be executed
+        Connection connection = DBConnection.GetConnection();
+        PreparedStatement stmt = connection.prepareStatement(str);
+
+        // begin transaction
+        connection.setAutoCommit(false);
+
+        try {
+            // initialize reader
+            BufferedReader reader = Files.newBufferedReader(Path.of(Constants.DATASET_PATH + "drivers.csv"),
+                    StandardCharsets.UTF_8);
+
+            // read header row
+            String line = reader.readLine();
+
+            // loop through the csv file
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                stmt.setInt(1, Integer.parseInt(columns[0]));
+                stmt.setString(2, columns[1].trim());
+                stmt.setString(3, columns[2]);
+                stmt.setString(4, columns[3]);
+                stmt.setDate(5, Date.valueOf(columns[4]));
+                stmt.setString(6, columns[5]);
+                stmt.executeUpdate();
+            }
+
+            // close reader
+            reader.close();
+
+            // commit the transaction if no error occured (end transaction)
+            connection.commit();
+        } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+
+            // roll back if any error occurs
+            connection.rollback();
+        } finally {
+
+            // reset auto commit
+            connection.setAutoCommit(true);
+        }
     }
 }

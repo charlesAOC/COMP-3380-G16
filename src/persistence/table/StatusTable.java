@@ -99,6 +99,7 @@ public class StatusTable implements F1Table {
             // commit the transaction if no error occured (end transaction)
             connection.commit();
         } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
 
             // roll back if any error occurs
             connection.rollback();

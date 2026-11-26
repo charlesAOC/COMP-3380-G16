@@ -8,7 +8,7 @@ import java.util.Properties;
 import logic.AccountHelper;
 import logic.DBConnection;
 import logic.TableServices;
-import persistence.table.CircuitTable;
+import persistence.table.DriverTable;
 
 /**
  * Main activity for the application
@@ -61,7 +61,7 @@ public class Main {
             // create tables if they arent already created
             TableServices.CreateTables();
 
-            new CircuitTable().insertData();
+            new DriverTable().insertData();
 
             // close the connection
             connection.close();
