@@ -9,6 +9,7 @@ import logic.AccountHelper;
 import logic.DBConnection;
 import logic.TableServices;
 import persistence.table.ConstructorResultTable;
+import persistence.table.ConstructorStandingTable;
 
 /**
  * Main activity for the application
@@ -66,7 +67,8 @@ public class Main {
             // new CircuitTable().insertData();
             // new DriverTable().insertData();
             // new RaceTable().insertData();
-            new ConstructorResultTable().insertData();
+            // new ConstructorResultTable().insertData();
+            new ConstructorStandingTable().insertData();
 
             // close the connection
             connection.close();
