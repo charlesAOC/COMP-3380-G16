@@ -43,13 +43,4 @@ public class StatusTable implements F1Table {
         stm.execute(str);
 
     }
-
-    /**
-     * static method to create the status table
-     * 
-     * @throws SQLException
-     */
-    public static void CreateTable() throws SQLException {
-        new StatusTable().createTable();
-    }
 }

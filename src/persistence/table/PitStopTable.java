@@ -41,14 +41,4 @@ public class PitStopTable implements F1Table {
         Statement stmt = DBConnection.GetConnection().createStatement();
         stmt.execute(str);
     }
-
-    /**
-     * staic method for creating the pit stops table
-     * 
-     * @throws SQLException
-     */
-    public static void CreateTable() throws SQLException {
-        new PitStopTable().createTable();
-    }
-
 }

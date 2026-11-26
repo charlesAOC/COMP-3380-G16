@@ -40,14 +40,4 @@ public class DriverStandingTable implements F1Table {
         Statement stmt = DBConnection.GetConnection().createStatement();
         stmt.execute(str);
     }
-
-    /**
-     * staic method for creating the driver standings table
-     * 
-     * @throws SQLException
-     */
-    public static void CreateTable() throws SQLException {
-        new DriverStandingTable().createTable();
-    }
-
 }

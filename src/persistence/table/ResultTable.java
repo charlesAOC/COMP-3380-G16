@@ -50,13 +50,4 @@ public class ResultTable implements F1Table {
         Statement stmt = DBConnection.GetConnection().createStatement();
         stmt.execute(str);
     }
-
-    /**
-     * staic method for creating the result table
-     * 
-     * @throws SQLException
-     */
-    public static void CreateTable() throws SQLException {
-        new ResultTable().createTable();
-    }
 }

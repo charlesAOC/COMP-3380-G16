@@ -40,14 +40,4 @@ public class LapTimeTable implements F1Table {
         Statement stmt = DBConnection.GetConnection().createStatement();
         stmt.execute(str);
     }
-
-    /**
-     * staic method for creating the lap times table
-     * 
-     * @throws SQLException
-     */
-    public static void CreateTable() throws SQLException {
-        new LapTimeTable().createTable();
-    }
-
 }

@@ -34,14 +34,4 @@ public class ConstructorTable implements F1Table {
         Statement stmt = DBConnection.GetConnection().createStatement();
         stmt.execute(str);
     }
-
-    /**
-     * staic method for creating the constructor table
-     * 
-     * @throws SQLException
-     */
-    public static void CreateTable() throws SQLException {
-        new ConstructorTable().createTable();
-    }
-
 }
