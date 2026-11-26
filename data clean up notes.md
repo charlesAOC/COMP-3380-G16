@@ -41,6 +41,7 @@
 ### qualifying
 
 * removed all "\N" with excel remove all functionality
+* converted q1, q2,q3 to miliseconds (int) because sql server doesnt support the mm:ss.ss time format
 
 ### results
 
