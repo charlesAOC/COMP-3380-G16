@@ -36,7 +36,7 @@ public class ConstructorTable implements F1Table {
     }
 
     /**
-     * staic method for creating the circuite table
+     * staic method for creating the constructor table
      * 
      * @throws SQLException
      */
