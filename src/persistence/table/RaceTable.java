@@ -33,7 +33,7 @@ public class RaceTable implements F1Table {
                         circuitId INT          FOREIGN KEY REFERENCES %<s.circuit (circuitId) NOT NULL,
                         name      VARCHAR (%d) NOT NULL,
                         date      DATE         NOT NULL,
-                        time      TIME         NOT NULL
+                        time      TIME
                     );
                 END
                 """.formatted(username, Constants.MAX_COLUMN_LENGTH);
