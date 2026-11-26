@@ -1,4 +1,4 @@
-package persistence.create;
+package persistence.table;
 
 import java.sql.SQLException;
 
@@ -7,7 +7,7 @@ import java.sql.SQLException;
  * interface for classes that create tables
  * ensures/maintains shared functionality
  */
-public interface CreatesTable {
+public interface F1Table {
 
     /**
      * Creates the corresponding SQL server table

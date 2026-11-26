@@ -1,4 +1,4 @@
-package persistence.create;
+package persistence.table;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -6,30 +6,33 @@ import java.sql.Statement;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.util.Constants;
 
 /**
  * StatusTable
  * class to handle creating and deleting the status table
  */
-public class StatusTable implements CreatesTable {
+public class StatusTable implements F1Table {
 
     /**
      * (non-Javadoc)
      * 
-     * @see persistence.create.CreatesTable#CreateTable()
+     * @see persistence.table.F1Table#CreateTable()
      */
     @Override
     public void createTable() throws SQLException {
+        String username = AccountHelper.getUsername();
+
         // create statement
         String str = """
                         IF OBJECT_ID(N'%s.status', N'U') IS NULL
                         BEGIN
-                            CREATE TABLE chuc1.status (
+                            CREATE TABLE %<s.status (
                                 statusId INT          PRIMARY KEY NOT NULL,
-                                status   VARCHAR (50) CHECK (status IS NOT NULL)
+                                status   VARCHAR (%d) NOT NULL
                             );
                         END
-                """.formatted(AccountHelper.getUsername());
+                """.formatted(username, Constants.MAX_COLUMN_LENGTH);
         ;
 
         // get db connection
@@ -42,7 +45,7 @@ public class StatusTable implements CreatesTable {
     }
 
     /**
-     * Factory method to create the status table
+     * static method to create the status table
      * 
      * @throws SQLException
      */
