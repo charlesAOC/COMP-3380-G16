@@ -1,4 +1,4 @@
-package persistence.create;
+package persistence.table;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,12 +11,12 @@ import logic.DBConnection;
  * StatusTable
  * class to handle creating and deleting the status table
  */
-public class StatusTable implements CreatesTable {
+public class StatusTable implements F1Table {
 
     /**
      * (non-Javadoc)
      * 
-     * @see persistence.create.CreatesTable#CreateTable()
+     * @see persistence.table.F1Table#CreateTable()
      */
     @Override
     public void createTable() throws SQLException {
