@@ -13,6 +13,7 @@ import persistence.table.ConstructorStandingTable;
 import persistence.table.ConstructorTable;
 import persistence.table.DriverStandingTable;
 import persistence.table.DriverTable;
+import persistence.table.LapTimeTable;
 import persistence.table.RaceTable;
 import persistence.table.StatusTable;
 
@@ -72,6 +73,7 @@ public class Main {
             ConstructorResultTable.CreateTable();
             ConstructorStandingTable.CreateTable();
             DriverStandingTable.CreateTable();
+            LapTimeTable.CreateTable();
 
             // close the connection
             connection.close();
