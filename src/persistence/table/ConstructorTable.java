@@ -42,6 +42,11 @@ public class ConstructorTable implements F1Table {
         stmt.execute(str);
     }
 
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#insertData()
+     */
     @Override
     public void insertData() throws SQLException {
 

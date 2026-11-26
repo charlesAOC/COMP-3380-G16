@@ -1,7 +1,18 @@
 package persistence.table;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+
+import javax.xml.crypto.Data;
 
 import logic.AccountHelper;
 import logic.DBConnection;
@@ -43,9 +54,72 @@ public class RaceTable implements F1Table {
         stmt.execute(str);
     }
 
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#insertData()
+     */
     @Override
     public void insertData() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertData'");
+
+        // insert query
+        String str = """
+                INSERT  INTO %s.race (
+                    raceId,
+                    year,
+                    round,
+                    circuitId,
+                    name,
+                    date,
+                    time
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?);
+                        """.formatted(AccountHelper.getUsername());
+        ;
+
+        // prepared statement to be executed
+        Connection connection = DBConnection.GetConnection();
+        PreparedStatement stmt = connection.prepareStatement(str);
+
+        // begin transaction
+        connection.setAutoCommit(false);
+
+        try {
+            // initialize reader
+            BufferedReader reader = Files.newBufferedReader(Path.of(Constants.DATASET_PATH + "races.csv"),
+                    StandardCharsets.UTF_8);
+
+            // read header row
+            String line = reader.readLine();
+
+            // loop through the csv file
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                stmt.setInt(1, Integer.parseInt(columns[0]));
+                stmt.setInt(2, Integer.parseInt(columns[1]));
+                stmt.setInt(3, Integer.parseInt(columns[2]));
+                stmt.setInt(4, Integer.parseInt(columns[3]));
+                stmt.setString(5, columns[4]);
+                stmt.setDate(6, Date.valueOf(columns[5]));
+                if (columns.length == 7)
+                    stmt.setTime(7, Time.valueOf(columns[6]));
+                stmt.executeUpdate();
+            }
+
+            // close reader
+            reader.close();
+
+            // commit the transaction if no error occured (end transaction)
+            connection.commit();
+        } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+
+            // roll back if any error occurs
+            connection.rollback();
+        } finally {
+
+            // reset auto commit
+            connection.setAutoCommit(true);
+        }
     }
 }
