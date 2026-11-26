@@ -10,6 +10,7 @@ import logic.DBConnection;
 import logic.TableServices;
 import persistence.table.ConstructorResultTable;
 import persistence.table.ConstructorStandingTable;
+import persistence.table.DriverStandingTable;
 
 /**
  * Main activity for the application
@@ -68,7 +69,8 @@ public class Main {
             // new DriverTable().insertData();
             // new RaceTable().insertData();
             // new ConstructorResultTable().insertData();
-            new ConstructorStandingTable().insertData();
+            // new ConstructorStandingTable().insertData();
+            new DriverStandingTable().insertData();
 
             // close the connection
             connection.close();
