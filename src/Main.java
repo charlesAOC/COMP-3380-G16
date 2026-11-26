@@ -9,6 +9,7 @@ import logic.AccountHelper;
 import logic.DBConnection;
 import persistence.table.CircuitTable;
 import persistence.table.ConstructorTable;
+import persistence.table.DriverTable;
 import persistence.table.StatusTable;
 
 /**
@@ -62,6 +63,7 @@ public class Main {
             ConstructorTable.CreateTable();
             CircuitTable.CreateTable();
             StatusTable.CreateTable();
+            DriverTable.CreateTable();
 
             // close the connection
             connection.close();
