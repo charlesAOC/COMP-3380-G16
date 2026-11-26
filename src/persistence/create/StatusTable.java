@@ -20,16 +20,18 @@ public class StatusTable implements CreatesTable {
      */
     @Override
     public void createTable() throws SQLException {
+        String username = AccountHelper.getUsername();
+
         // create statement
         String str = """
                         IF OBJECT_ID(N'%s.status', N'U') IS NULL
                         BEGIN
-                            CREATE TABLE chuc1.status (
+                            CREATE TABLE %s.status (
                                 statusId INT          PRIMARY KEY NOT NULL,
                                 status   VARCHAR (50) CHECK (status IS NOT NULL)
                             );
                         END
-                """.formatted(AccountHelper.getUsername());
+                """.formatted(username, username);
         ;
 
         // get db connection
