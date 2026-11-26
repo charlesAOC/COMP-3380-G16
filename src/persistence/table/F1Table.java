@@ -15,4 +15,11 @@ public interface F1Table {
      * @throws SQLException on any sql exception while creating the table
      */
     void createTable() throws SQLException;
+
+    /**
+     * Inserts data into corresponding table from its csv file
+     * 
+     * @throws SQLException on invalid data entry
+     */
+    void insertData() throws SQLException;
 }

@@ -43,4 +43,10 @@ public class StatusTable implements F1Table {
         stm.execute(str);
 
     }
+
+    @Override
+    public void insertData() throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'insertData'");
+    }
 }
