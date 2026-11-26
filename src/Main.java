@@ -8,6 +8,7 @@ import java.util.Properties;
 import logic.AccountHelper;
 import logic.DBConnection;
 import persistence.table.CircuitTable;
+import persistence.table.ConstructorResultTable;
 import persistence.table.ConstructorTable;
 import persistence.table.DriverTable;
 import persistence.table.RaceTable;
@@ -66,6 +67,7 @@ public class Main {
             StatusTable.CreateTable();
             DriverTable.CreateTable();
             RaceTable.CreateTable();
+            ConstructorResultTable.CreateTable();
 
             // close the connection
             connection.close();
