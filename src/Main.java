@@ -7,19 +7,7 @@ import java.util.Properties;
 
 import logic.AccountHelper;
 import logic.DBConnection;
-import persistence.table.CircuitTable;
-import persistence.table.ConstructorResultTable;
-import persistence.table.ConstructorStandingTable;
-import persistence.table.ConstructorTable;
-import persistence.table.DriverStandingTable;
-import persistence.table.DriverTable;
-import persistence.table.LapTimeTable;
-import persistence.table.PitStopTable;
-import persistence.table.QualifyingTable;
-import persistence.table.RaceTable;
-import persistence.table.ResultTable;
-import persistence.table.SprintResultTable;
-import persistence.table.StatusTable;
+import logic.TableServices;
 
 /**
  * Main activity for the application
@@ -69,19 +57,8 @@ public class Main {
             // initialize the connection
             Connection connection = DBConnection.InitConnection(connectionUrl);
 
-            ConstructorTable.CreateTable();
-            CircuitTable.CreateTable();
-            StatusTable.CreateTable();
-            DriverTable.CreateTable();
-            RaceTable.CreateTable();
-            ConstructorResultTable.CreateTable();
-            ConstructorStandingTable.CreateTable();
-            DriverStandingTable.CreateTable();
-            LapTimeTable.CreateTable();
-            PitStopTable.CreateTable();
-            QualifyingTable.CreateTable();
-            SprintResultTable.CreateTable();
-            ResultTable.CreateTable();
+            // create tables if they arent already created
+            TableServices.CreateTables();
 
             // close the connection
             connection.close();
