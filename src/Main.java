@@ -12,6 +12,7 @@ import persistence.table.ConstructorResultTable;
 import persistence.table.ConstructorStandingTable;
 import persistence.table.DriverStandingTable;
 import persistence.table.LapTimeTable;
+import persistence.table.QualifyingTable;
 
 /**
  * Main activity for the application
@@ -72,7 +73,8 @@ public class Main {
             // new ConstructorResultTable().insertData();
             // new ConstructorStandingTable().insertData();
             // new DriverStandingTable().insertData();
-            new LapTimeTable().insertData();
+            // new LapTimeTable().insertData();
+            new QualifyingTable().insertData();
 
             // close the connection
             connection.close();
