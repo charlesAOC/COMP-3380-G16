@@ -93,8 +93,8 @@ public class DriverStandingTable implements F1Table {
                 stmt.setInt(2, Integer.parseInt(columns[1]));
                 stmt.setInt(3, Integer.parseInt(columns[2]));
                 stmt.setDouble(4, Double.parseDouble(columns[3]));
-                stmt.setInt(5, Integer.parseInt(columns[2]));
-                stmt.setInt(6, Integer.parseInt(columns[2]));
+                stmt.setInt(5, Integer.parseInt(columns[4]));
+                stmt.setInt(6, Integer.parseInt(columns[5]));
                 stmt.executeUpdate();
             }
 
