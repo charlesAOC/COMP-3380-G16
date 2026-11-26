@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.util.Constants;
 
 /**
  * StatusTable
@@ -26,12 +27,12 @@ public class StatusTable implements F1Table {
         String str = """
                         IF OBJECT_ID(N'%s.status', N'U') IS NULL
                         BEGIN
-                            CREATE TABLE %s.status (
+                            CREATE TABLE %<s.status (
                                 statusId INT          PRIMARY KEY NOT NULL,
-                                status   VARCHAR (50) CHECK (status IS NOT NULL)
+                                status   VARCHAR (%d) NOT NULL
                             );
                         END
-                """.formatted(username, username);
+                """.formatted(username, Constants.MAX_COLUMN_LENGTH);
         ;
 
         // get db connection
@@ -44,7 +45,7 @@ public class StatusTable implements F1Table {
     }
 
     /**
-     * Factory method to create the status table
+     * static method to create the status table
      * 
      * @throws SQLException
      */
