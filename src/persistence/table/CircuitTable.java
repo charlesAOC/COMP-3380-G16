@@ -1,5 +1,12 @@
 package persistence.table;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -32,8 +39,8 @@ public class CircuitTable implements F1Table {
                         name       VARCHAR (%<d) NOT NULL UNIQUE,
                         location   VARCHAR (%<d) NOT NULL,
                         country    VARCHAR (%<d) NOT NULL,
-                        lat        INT          NOT NULL,
-                        lng        INT          NOT NULL,
+                        lat        DECIMAL          NOT NULL,
+                        lng        DECIMAL          NOT NULL,
                         alt        INT          NOT NULL
                     );
                 END
@@ -46,7 +53,66 @@ public class CircuitTable implements F1Table {
 
     @Override
     public void insertData() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertData'");
+
+        // insert query
+        String str = """
+                INSERT  INTO %s.circuit (
+                    circuitId,
+                    circuitRef,
+                    name,
+                    location,
+                    country,
+                    lat,
+                    lng,
+                    alt
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+                        """.formatted(AccountHelper.getUsername());
+        ;
+
+        // prepared statement to be executed
+        Connection connection = DBConnection.GetConnection();
+        PreparedStatement stmt = connection.prepareStatement(str);
+
+        // begin transaction
+        connection.setAutoCommit(false);
+
+        try {
+            // initialize reader
+            BufferedReader reader = Files.newBufferedReader(Path.of(Constants.DATASET_PATH + "circuits.csv"),
+                    StandardCharsets.UTF_8);
+
+            // read header row
+            String line = reader.readLine();
+
+            // loop through the csv file
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                stmt.setInt(1, Integer.parseInt(columns[0]));
+                stmt.setString(2, columns[1]);
+                stmt.setString(3, columns[2]);
+                stmt.setString(4, columns[3]);
+                stmt.setString(5, columns[4]);
+                stmt.setDouble(6, Double.valueOf(columns[5]));
+                stmt.setDouble(7, Double.valueOf(columns[6]));
+                stmt.setInt(8, Integer.valueOf(columns[7]));
+                stmt.executeUpdate();
+            }
+
+            // close reader
+            reader.close();
+
+            // commit the transaction if no error occured (end transaction)
+            connection.commit();
+        } catch (SQLException | IOException e) {
+            System.out.println(e.getMessage());
+
+            // roll back if any error occurs
+            connection.rollback();
+        } finally {
+
+            // reset auto commit
+            connection.setAutoCommit(true);
+        }
     }
 }
