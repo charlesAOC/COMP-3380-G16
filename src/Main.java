@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
 
         Properties prop = new Properties();
-        String fileName = "../auth.cfg";
+        String fileName = "auth.cfg";
         try {
             FileInputStream configFile = new FileInputStream(fileName);
             prop.load(configFile);
