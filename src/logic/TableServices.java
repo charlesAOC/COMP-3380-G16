@@ -1,7 +1,6 @@
 package logic;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import persistence.table.CircuitTable;
@@ -170,7 +169,7 @@ public class TableServices {
                     Prompter prompt = new Prompter("SELECTING * FROM " + tables[count].getTableName() + " table.");
 
                     // perform SELECT * FROM table_name query
-                    ResultSet res = tables[count].selectAll();
+                    tables[count].selectAll();
 
                     // success promt
                     prompt.endPrompt("Successfully SELECTED ALL from " + tables[count].getTableName() + " table.");

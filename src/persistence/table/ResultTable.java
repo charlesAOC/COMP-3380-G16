@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -196,7 +195,7 @@ public class ResultTable implements F1Table {
      * @see persistence.table.F1Table#selectAll()
      */
     @Override
-    public ResultSet selectAll() throws SQLException {
-        return SelectAll.SelectAllFromTable(tableName);
+    public void selectAll() throws SQLException {
+        SelectAll.SelectAllFromTable(tableName);
     }
 }
