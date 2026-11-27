@@ -22,7 +22,7 @@ import persistence.DropTable;
  */
 public class DriverStandingTable implements F1Table {
 
-    private static final String tableName = TableName.DRIVER_STANDING.getTableName();
+    private final String tableName = TableName.DRIVER_STANDING.getTableName();
 
     /**
      * (non-Javadoc)
