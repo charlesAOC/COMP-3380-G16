@@ -17,7 +17,7 @@ import logic.TableName;
 import logic.util.Constants;
 import persistence.DropTable;
 import persistence.SelectAll;
-import ui.util.Printer;
+import ui.Printer;
 import ui.util.TabData;
 
 /**
@@ -175,6 +175,9 @@ public class CircuitTable implements F1Table {
                 new TabData(10, "alt")
         };
 
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
         // display results
         while (res.next()) {
 
@@ -188,8 +191,11 @@ public class CircuitTable implements F1Table {
                     res.getFloat(7) + "",
                     res.getInt(8) + "" };
 
-            // print output
+            // print output row
             Printer.PrintRow(colData, colValues);
         }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }
