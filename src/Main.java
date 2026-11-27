@@ -9,6 +9,7 @@ import logic.AccountHelper;
 import logic.DBConnection;
 import logic.TableName;
 import logic.TableServices;
+import ui.UserInterface;
 
 /**
  * Main activity for the application
@@ -60,9 +61,10 @@ public class Main {
 
             // create tables if they arent already created
             TableServices.CreateTables();
+            UserInterface.runConsole();
 
             // insert the data into tables
-            // TableServices.InsertData();
+             //TableServices.InsertData();
 
             // select from table (change table name to preview tables)
             // TableServices.SelectAllFrom(TableName.STATUS);
