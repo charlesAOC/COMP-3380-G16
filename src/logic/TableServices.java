@@ -82,6 +82,8 @@ public class TableServices {
     /**
      * Inserts all the data from the csv files into the created tables
      * 
+     * NOTE - transactions on each table creation as at now
+     * 
      * @throws SQLException on any sql exception while inserting data
      */
     public static void InsertData() throws SQLException {
