@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -16,6 +17,8 @@ import logic.TableName;
 import logic.util.Constants;
 import persistence.DropTable;
 import persistence.SelectAll;
+import ui.Printer;
+import ui.util.TabData;
 
 /**
  * StatusTable
@@ -147,6 +150,33 @@ public class StatusTable implements F1Table {
      */
     @Override
     public void selectAll() throws SQLException {
-        SelectAll.SelectAllFromTable(tableName);
+
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // output configuration
+        TabData[] colData = {
+                new TabData("statusId", 10),
+                new TabData("status", 20)
+        };
+
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
+        // display results
+        while (res.next()) {
+
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "", // statusId
+                    res.getString(2), // status
+
+            };
+
+            // print output row
+            Printer.PrintRow(colData, colValues);
+        }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }
