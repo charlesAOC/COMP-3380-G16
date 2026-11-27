@@ -144,7 +144,7 @@ public class ConstructorResultTable implements F1Table {
     }
 
     /**
-     * (non-Javadoc) TODO: implement pagination
+     * (non-Javadoc)
      * 
      * @see persistence.table.F1Table#selectAll()
      */
@@ -163,7 +163,7 @@ public class ConstructorResultTable implements F1Table {
         };
 
         // print output header
-        int tablewidth = Printer.PrintHeader(colData);
+        int tableWidth = Printer.PrintHeader(colData);
 
         // initialize pagination
         Pagination pagination = new Pagination(null);
@@ -181,10 +181,10 @@ public class ConstructorResultTable implements F1Table {
             Printer.PrintRow(colData, colValues);
 
             // trigger pagination at page limit
-            pagination.paginate(colData, tablewidth);
+            pagination.paginate(colData, tableWidth);
         }
 
         // print output footer
-        Printer.PrintFooter(tablewidth);
+        Printer.PrintFooter(tableWidth);
     }
 }
