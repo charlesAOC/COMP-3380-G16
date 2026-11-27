@@ -22,4 +22,11 @@ public interface F1Table {
      * @throws SQLException on invalid data entry
      */
     void insertData() throws SQLException;
+
+    /**
+     * Drop table
+     * 
+     * @throws SQLException on errors while dropping tables
+     */
+    void dropTable() throws SQLException;
 }

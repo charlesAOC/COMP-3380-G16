@@ -12,9 +12,11 @@ import java.sql.Statement;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.TableName;
 import logic.util.Constants;
 import logic.util.Strings;
 import logic.util.TimeConverter;
+import persistence.DropTable;
 
 /**
  * SprintResultTable
@@ -144,5 +146,15 @@ public class SprintResultTable implements F1Table {
             // reset auto commit
             connection.setAutoCommit(true);
         }
+    }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#dropTable()
+     */
+    @Override
+    public void dropTable() throws SQLException {
+        DropTable.DropATable(TableName.SPRINT_RESULT);
     }
 }

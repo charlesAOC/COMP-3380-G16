@@ -12,8 +12,10 @@ import java.sql.Statement;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.TableName;
 import logic.util.Constants;
 import logic.util.TimeConverter;
+import persistence.DropTable;
 
 /**
  * QualifyingTable
@@ -127,5 +129,15 @@ public class QualifyingTable implements F1Table {
             // reset auto commit
             connection.setAutoCommit(true);
         }
+    }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#dropTable()
+     */
+    @Override
+    public void dropTable() throws SQLException {
+        DropTable.DropATable(TableName.QUALIFYING);
     }
 }

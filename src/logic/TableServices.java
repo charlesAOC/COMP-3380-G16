@@ -48,7 +48,7 @@ public class TableServices {
     /**
      * Creates all the tables related to the project
      * 
-     * @throws SQLException on any sql exception
+     * @throws SQLException on any sql exception while creating tables
      */
     public static void CreateTables() throws SQLException {
         for (F1Table table : tables) {
@@ -59,11 +59,24 @@ public class TableServices {
     /**
      * Inserts all the data from the csv files into the created tables
      * 
-     * @throws SQLException on any sql exception
+     * @throws SQLException on any sql exception while inserting data
      */
     public static void InsertData() throws SQLException {
         for (F1Table table : tables) {
             table.insertData();
+        }
+    }
+
+    /**
+     * Drop all tables
+     * 
+     * @throws SQLException on any sql execption while dropping tables
+     */
+    public static void DropTables() throws SQLException {
+
+        // drop tables in reverse order
+        for (int ind = tables.length - 1; ind >= 0; ind--) {
+            tables[ind].dropTable();
         }
     }
 }

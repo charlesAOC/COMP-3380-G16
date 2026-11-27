@@ -14,7 +14,9 @@ import java.sql.Time;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.TableName;
 import logic.util.Constants;
+import persistence.DropTable;
 
 /**
  * RaceTable
@@ -119,5 +121,15 @@ public class RaceTable implements F1Table {
             // reset auto commit
             connection.setAutoCommit(true);
         }
+    }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#dropTable()
+     */
+    @Override
+    public void dropTable() throws SQLException {
+        DropTable.DropATable(TableName.RACE);
     }
 }
