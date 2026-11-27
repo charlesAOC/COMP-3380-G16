@@ -152,7 +152,7 @@ public class TableServices {
      * @param table table to select all from
      * @throws SQLException on errors while selecting all
      */
-    public void SelectAllFrom(TableName table) throws SQLException {
+    public static void SelectAllFrom(TableName table) throws SQLException {
         boolean found = false;
         int count = 0;
         String tableName = table.getTableName();

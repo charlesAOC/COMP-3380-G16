@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -44,9 +45,9 @@ public class CircuitTable implements F1Table {
                         name       VARCHAR (%3$d) NOT NULL UNIQUE,
                         location   VARCHAR (%3$d) NOT NULL,
                         country    VARCHAR (%3$d) NOT NULL,
-                        lat        DECIMAL       NOT NULL,
-                        lng        DECIMAL       NOT NULL,
-                        alt        INT           NOT NULL
+                        lat        FLOAT          NOT NULL,
+                        lng        FLOAT          NOT NULL,
+                        alt        INT            NOT NULL
                     );
                 END
                             """.formatted(username, tableName, Constants.MAX_COLUMN_LENGTH);
@@ -104,9 +105,9 @@ public class CircuitTable implements F1Table {
                 stmt.setString(3, columns[2]);
                 stmt.setString(4, columns[3]);
                 stmt.setString(5, columns[4]);
-                stmt.setFloat(6, Float.valueOf(columns[5]));
-                stmt.setFloat(7, Float.valueOf(columns[6]));
-                stmt.setInt(8, Integer.valueOf(columns[7]));
+                stmt.setFloat(6, Float.parseFloat(columns[5]));
+                stmt.setFloat(7, Float.parseFloat(columns[6]));
+                stmt.setInt(8, Integer.parseInt(columns[7]));
                 stmt.addBatch(); // add to batch
 
                 // add batch to db
@@ -157,6 +158,29 @@ public class CircuitTable implements F1Table {
      */
     @Override
     public void selectAll() throws SQLException {
-        SelectAll.SelectAllFromTable(tableName);
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // display results
+        while (res.next()) {
+            int circuitId = res.getInt(1);
+            String circuitRef = res.getString(2);
+            String name = res.getString(3);
+            String location = res.getString(4);
+            String country = res.getString(5);
+            float lat = res.getFloat(6);
+            float lng = res.getFloat(7);
+            int alt = res.getInt(8);
+
+            System.out.println("%d, %s, %s, %s, %s, %.5f, %.5f, %d".formatted(
+                    circuitId,
+                    circuitRef,
+                    name,
+                    location,
+                    country,
+                    lat,
+                    lng,
+                    alt));
+        }
     }
 }
