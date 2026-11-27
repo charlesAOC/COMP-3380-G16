@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -18,6 +19,8 @@ import logic.util.Strings;
 import logic.util.TimeConverter;
 import persistence.DropTable;
 import persistence.SelectAll;
+import ui.Printer;
+import ui.util.TabData;
 
 /**
  * SprintResultTable
@@ -186,6 +189,56 @@ public class SprintResultTable implements F1Table {
      */
     @Override
     public void selectAll() throws SQLException {
-        SelectAll.SelectAllFromTable(tableName);
+
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // output configuration
+        TabData[] colData = {
+                new TabData("resultId", 10),
+                new TabData("raceId", 10),
+                new TabData("driverId", 8),
+                new TabData("constructorId", 15),
+                new TabData("number", 8),
+                new TabData("grid", 12),
+                new TabData("position", 10),
+                new TabData("positionOrder", 15),
+                new TabData("points", 10),
+                new TabData("laps", 10),
+                new TabData("milliseconds", 15),
+                new TabData("fastestLap", 10),
+                new TabData("fastestLapTime", 15),
+                new TabData("statusId", 10)
+        };
+
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
+        // display results
+        while (res.next()) {
+
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "", // resultId
+                    res.getInt(2) + "", // raceId
+                    res.getInt(3) + "", // driverId
+                    res.getInt(4) + "", // constructorId
+                    res.getInt(5) + "", // number
+                    res.getInt(6) + "", // grid
+                    res.getInt(7) + "", // position
+                    res.getInt(8) + "", // positionOrder
+                    res.getInt(9) + "", // points
+                    res.getInt(10) + "", // laps
+                    res.getInt(11) + "", // milliseconds
+                    res.getInt(12) + "", // fastestLap
+                    res.getInt(13) + "", // rank
+                    res.getInt(14) + "" // fastestLapTime
+            };
+
+            // print output row
+            Printer.PrintRow(colData, colValues);
+        }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }
