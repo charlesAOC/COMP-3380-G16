@@ -180,10 +180,8 @@ public class ConstructorResultTable implements F1Table {
             // print output row
             Printer.PrintRow(colData, colValues);
 
-            // trigger pagination if at page limit
-            if (pagination.isPageEnd()) {
-                pagination.nextPageOrExit();
-            }
+            // trigger pagination at page limit
+            pagination.paginate();
         }
 
         // print output footer

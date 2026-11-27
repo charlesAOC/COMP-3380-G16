@@ -27,18 +27,45 @@ public class Pagination {
     }
 
     /**
-     * check if query printing is at page limit
+     * Method to trigger pagination behaviour.
+     * called inside the while loop. look at the ConstructorResultTable.java for an
+     * example on how to use this
+     * must be paired with instance.isTerminated() to cancel out of pagination
+     */
+    public void paginate() {
+
+        // check if its at page limit
+        if (this.isPageEnd()) {
+            this.nextPageOrExit();
+        }
+    }
+
+    /**
+     * getter for isTerminated
+     * 
+     * @return false if the querying is still printing, true terminates
+     *         this returning true ends the query
+     */
+    public boolean isTerminated() {
+        return isTerminated;
+    }
+
+    /**
+     * check if the query printing is at page limit
      * 
      * @return true if at page limit false otherwise
      */
-    public boolean isPageEnd() {
+    private boolean isPageEnd() {
         ++this.count;
 
         // true if not a multiple of page size
         return this.count % this.PAGE_SIZE == 0;
     }
 
-    public void nextPageOrExit() {
+    /**
+     * helper method to control paginatin with user input
+     */
+    private void nextPageOrExit() {
 
         // initialize scanner
         Scanner scanner = new Scanner(System.in);
@@ -72,16 +99,6 @@ public class Pagination {
             System.out.println(e.getMessage()); // exception with io
         }
 
-    }
-
-    /**
-     * getter for isTerminated
-     * 
-     * @return false if the querying is still printing, true terminates
-     *         this returning true ends the query
-     */
-    public boolean isTerminated() {
-        return isTerminated;
     }
 
 }
