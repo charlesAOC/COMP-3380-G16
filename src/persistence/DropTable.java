@@ -25,7 +25,7 @@ public class DropTable {
         String username = AccountHelper.getUsername();
 
         // sql statement
-        String str = "DROP TABLE IF EXISTS %s.$s;".formatted(username, tableName.getTableName());
+        String str = "DROP TABLE IF EXISTS %s.%s;".formatted(username, tableName.getTableName());
 
         // create connection
         Connection connection = DBConnection.GetConnection();
