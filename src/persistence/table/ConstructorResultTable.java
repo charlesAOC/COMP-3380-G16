@@ -163,7 +163,7 @@ public class ConstructorResultTable implements F1Table {
         };
 
         // print output header
-        int colWidth = Printer.PrintHeader(colData);
+        int tablewidth = Printer.PrintHeader(colData);
 
         // initialize pagination
         Pagination pagination = new Pagination(null);
@@ -181,10 +181,10 @@ public class ConstructorResultTable implements F1Table {
             Printer.PrintRow(colData, colValues);
 
             // trigger pagination at page limit
-            pagination.paginate();
+            pagination.paginate(colData, tablewidth);
         }
 
         // print output footer
-        Printer.PrintFooter(colWidth);
+        Printer.PrintFooter(tablewidth);
     }
 }

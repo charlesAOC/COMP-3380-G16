@@ -2,6 +2,9 @@ package logic;
 
 import java.util.Scanner;
 
+import ui.Printer;
+import ui.util.TabData;
+
 /**
  * Pagination
  * utility class to handle query pagination
@@ -31,13 +34,26 @@ public class Pagination {
      * called inside the while loop. look at the ConstructorResultTable.java for an
      * example on how to use this
      * must be paired with instance.isTerminated() to cancel out of pagination
+     * 
+     * @param colData    column data for printing headers
+     * @param tableWidth column width (all columns)
      */
-    public void paginate() {
+    public void paginate(TabData[] colData, int tableWidth) {
 
         // check if its at page limit
         if (this.isPageEnd()) {
+            // print table footer
+            Printer.PrintFooter(tableWidth);
+
+            // wait for the users decision
             this.nextPageOrExit();
+
+            // if the user continues to the next page
+            if (!isTerminated) {
+                Printer.PrintHeader(colData);
+            }
         }
+
     }
 
     /**
