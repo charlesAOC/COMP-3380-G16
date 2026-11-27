@@ -230,8 +230,8 @@ public class SprintResultTable implements F1Table {
                     res.getInt(10) + "", // laps
                     res.getInt(11) + "", // milliseconds
                     res.getInt(12) + "", // fastestLap
-                    res.getInt(13) + "", // rank
-                    res.getInt(14) + "" // fastestLapTime
+                    res.getInt(13) + "", // fastestLapTime
+                    res.getInt(14) + "" // statusId
             };
 
             // print output row
