@@ -14,7 +14,9 @@ import java.sql.Time;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.TableName;
 import logic.util.Constants;
+import persistence.DropTable;
 
 /**
  * RaceTable
@@ -128,7 +130,6 @@ public class RaceTable implements F1Table {
      */
     @Override
     public void dropTable() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dropTable'");
+        DropTable.DropATable(TableName.RACE);
     }
 }

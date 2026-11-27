@@ -12,7 +12,9 @@ import java.sql.Statement;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.TableName;
 import logic.util.Constants;
+import persistence.DropTable;
 
 /**
  * ConstructorResultTable
@@ -115,7 +117,6 @@ public class ConstructorResultTable implements F1Table {
      */
     @Override
     public void dropTable() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dropTable'");
+        DropTable.DropATable(TableName.CONSTRUCTOR_RESULT);
     }
 }
