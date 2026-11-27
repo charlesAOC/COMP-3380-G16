@@ -181,8 +181,8 @@ public class ConstructorResultTable implements F1Table {
             Printer.PrintRow(colData, colValues);
 
             // trigger pagination if at page limit
-            if (pagination.isPrinting() == false) {
-                pagination.setTerminated(true);
+            if (pagination.isPageEnd()) {
+                pagination.nextPageOrExit();
             }
         }
 
