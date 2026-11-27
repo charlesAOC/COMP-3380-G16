@@ -38,6 +38,14 @@ public class Prompter {
     }
 
     /**
+     * clears the console
+     */
+    public static void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    /**
      * Re-usable prompt class TODO no sure this is actually usefull
      * 
      * @param msg to print to sys out
