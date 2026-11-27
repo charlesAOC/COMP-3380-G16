@@ -17,6 +17,7 @@ import persistence.table.RaceTable;
 import persistence.table.ResultTable;
 import persistence.table.SprintResultTable;
 import persistence.table.StatusTable;
+import ui.Prompter;
 
 /**
  * TableServices
