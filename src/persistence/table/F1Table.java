@@ -1,5 +1,6 @@
 package persistence.table;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -29,6 +30,13 @@ public interface F1Table {
      * @throws SQLException on errors while dropping tables
      */
     void dropTable() throws SQLException;
+
+    /**
+     * performs SELECT * FROM table_name
+     * 
+     * @throws SQLException on errors while selecting all from a table
+     */
+    ResultSet selectAll() throws SQLException;
 
     /**
      * Getter for the table name

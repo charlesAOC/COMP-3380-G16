@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -17,6 +18,7 @@ import logic.util.Constants;
 import logic.util.Strings;
 import logic.util.TimeConverter;
 import persistence.DropTable;
+import persistence.SelectAll;
 
 /**
  * ResultTable
@@ -180,11 +182,21 @@ public class ResultTable implements F1Table {
      */
     @Override
     public void dropTable() throws SQLException {
-        DropTable.DropATable(TableName.RESULT);
+        DropTable.DropATable(tableName);
     }
 
     // getter
     public String getTableName() {
         return this.tableName;
+    }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#selectAll()
+     */
+    @Override
+    public ResultSet selectAll() throws SQLException {
+        return SelectAll.SelectAllFromTable(tableName);
     }
 }
