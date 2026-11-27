@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,6 +16,9 @@ import logic.DBConnection;
 import logic.TableName;
 import logic.util.Constants;
 import persistence.DropTable;
+import persistence.SelectAll;
+import ui.Printer;
+import ui.util.TabData;
 
 /**
  * LapTimeTable
@@ -136,11 +140,53 @@ public class LapTimeTable implements F1Table {
      */
     @Override
     public void dropTable() throws SQLException {
-        DropTable.DropATable(TableName.LAP_TIME);
+        DropTable.DropATable(tableName);
     }
 
     // getter
     public String getTableName() {
         return this.tableName;
+    }
+
+    /**
+     * (non-Javadoc) TODO: need pagination badly!!!!
+     * 
+     * @see persistence.table.F1Table#selectAll()
+     */
+    @Override
+    public void selectAll() throws SQLException {
+
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // output configuration
+        TabData[] colData = {
+                new TabData("raceId", 10),
+                new TabData("driverId", 10),
+                new TabData("lap", 10),
+                new TabData("position", 13),
+                new TabData("milliseconds", 13),
+        };
+
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
+        // display results
+        while (res.next()) {
+
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "", // raceId
+                    res.getInt(2) + "", // driverId
+                    res.getInt(3) + "", // lap
+                    res.getInt(4) + "", // position
+                    res.getInt(5) + "", // milliseconds
+            };
+
+            // print output row
+            Printer.PrintRow(colData, colValues);
+        }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }

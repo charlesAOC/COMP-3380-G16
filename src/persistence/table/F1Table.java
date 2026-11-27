@@ -31,6 +31,13 @@ public interface F1Table {
     void dropTable() throws SQLException;
 
     /**
+     * performs SELECT * FROM table_name
+     * 
+     * @throws SQLException on errors while selecting all from a table
+     */
+    void selectAll() throws SQLException;
+
+    /**
      * Getter for the table name
      * 
      * @return the name of the table

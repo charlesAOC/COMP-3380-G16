@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,6 +16,9 @@ import logic.DBConnection;
 import logic.TableName;
 import logic.util.Constants;
 import persistence.DropTable;
+import persistence.SelectAll;
+import ui.Printer;
+import ui.util.TabData;
 
 /**
  * DriverStandingTable
@@ -137,11 +141,55 @@ public class DriverStandingTable implements F1Table {
      */
     @Override
     public void dropTable() throws SQLException {
-        DropTable.DropATable(TableName.DRIVER_STANDING);
+        DropTable.DropATable(tableName);
     }
 
     // getter
     public String getTableName() {
         return this.tableName;
+    }
+
+    /**
+     * (non-Javadoc) TODO: needs pagination
+     * 
+     * @see persistence.table.F1Table#selectAll()
+     */
+    @Override
+    public void selectAll() throws SQLException {
+
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // output configuration
+        TabData[] colData = {
+                new TabData("driverStandingsId", 20),
+                new TabData("raceId", 10),
+                new TabData("driverId", 10),
+                new TabData("points", 10),
+                new TabData("position", 10),
+                new TabData("wins", 8)
+        };
+
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
+        // display results
+        while (res.next()) {
+
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "",
+                    res.getInt(2) + "",
+                    res.getInt(3) + "",
+                    res.getFloat(4) + "",
+                    res.getInt(5) + "",
+                    res.getInt(6) + ""
+            };
+
+            // print output row
+            Printer.PrintRow(colData, colValues);
+        }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }

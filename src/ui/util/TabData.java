@@ -17,7 +17,7 @@ public class TabData {
      * @param maxLenght maximum length for the table column
      * @param header    column name
      */
-    public TabData(int maxLenght, String header) {
+    public TabData(String header,  int maxLenght) {
         this.maxLenght = Math.max(maxLenght, header.length());
         this.header = header;
     }

@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,6 +16,9 @@ import logic.DBConnection;
 import logic.TableName;
 import logic.util.Constants;
 import persistence.DropTable;
+import persistence.SelectAll;
+import ui.Printer;
+import ui.util.TabData;
 
 /**
  * CircuitTable
@@ -43,9 +47,9 @@ public class CircuitTable implements F1Table {
                         name       VARCHAR (%3$d) NOT NULL UNIQUE,
                         location   VARCHAR (%3$d) NOT NULL,
                         country    VARCHAR (%3$d) NOT NULL,
-                        lat        DECIMAL       NOT NULL,
-                        lng        DECIMAL       NOT NULL,
-                        alt        INT           NOT NULL
+                        lat        FLOAT          NOT NULL,
+                        lng        FLOAT          NOT NULL,
+                        alt        INT            NOT NULL
                     );
                 END
                             """.formatted(username, tableName, Constants.MAX_COLUMN_LENGTH);
@@ -103,9 +107,9 @@ public class CircuitTable implements F1Table {
                 stmt.setString(3, columns[2]);
                 stmt.setString(4, columns[3]);
                 stmt.setString(5, columns[4]);
-                stmt.setFloat(6, Float.valueOf(columns[5]));
-                stmt.setFloat(7, Float.valueOf(columns[6]));
-                stmt.setInt(8, Integer.valueOf(columns[7]));
+                stmt.setFloat(6, Float.parseFloat(columns[5]));
+                stmt.setFloat(7, Float.parseFloat(columns[6]));
+                stmt.setInt(8, Integer.parseInt(columns[7]));
                 stmt.addBatch(); // add to batch
 
                 // add batch to db
@@ -141,11 +145,57 @@ public class CircuitTable implements F1Table {
      */
     @Override
     public void dropTable() throws SQLException {
-        DropTable.DropATable(TableName.CIRCUIT);
+        DropTable.DropATable(tableName);
     }
 
     // getter
     public String getTableName() {
         return this.tableName;
+    }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#selectAll()
+     */
+    @Override
+    public void selectAll() throws SQLException {
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // output configuration
+        TabData[] colData = {
+                new TabData("circuitId", 10),
+                new TabData("circuitRef", 15),
+                new TabData("name", 40),
+                new TabData("location", 25),
+                new TabData("country", 15),
+                new TabData("lat", 10),
+                new TabData("lng", 10),
+                new TabData("alt", 8)
+        };
+
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
+        // display results
+        while (res.next()) {
+
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "",
+                    res.getString(2),
+                    res.getString(3),
+                    res.getString(4),
+                    res.getString(5),
+                    res.getFloat(6) + "",
+                    res.getFloat(7) + "",
+                    res.getInt(8) + "" };
+
+            // print output row
+            Printer.PrintRow(colData, colValues);
+        }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }

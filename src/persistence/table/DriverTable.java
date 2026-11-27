@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -16,6 +17,9 @@ import logic.DBConnection;
 import logic.TableName;
 import logic.util.Constants;
 import persistence.DropTable;
+import persistence.SelectAll;
+import ui.Printer;
+import ui.util.TabData;
 
 /**
  * DriverTable
@@ -136,11 +140,55 @@ public class DriverTable implements F1Table {
      */
     @Override
     public void dropTable() throws SQLException {
-        DropTable.DropATable(TableName.DRIVER);
+        DropTable.DropATable(tableName);
     }
 
     // getter
     public String getTableName() {
         return this.tableName;
+    }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#selectAll()
+     */
+    @Override
+    public void selectAll() throws SQLException {
+
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // output configuration
+        TabData[] colData = {
+                new TabData("driverId", 10),
+                new TabData("driverRef", 20),
+                new TabData("forename", 20),
+                new TabData("surname", 25),
+                new TabData("dob", 12),
+                new TabData("nationality", 20)
+        };
+
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
+        // display results
+        while (res.next()) {
+
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "", // driverId
+                    res.getString(2), // driverRef
+                    res.getString(3), // forename
+                    res.getString(4), // surname
+                    res.getDate(5).toString(), // dob
+                    res.getString(6) // nationality
+            };
+
+            // print output row
+            Printer.PrintRow(colData, colValues);
+        }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }

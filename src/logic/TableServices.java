@@ -145,4 +145,43 @@ public class TableServices {
         }
 
     }
+
+    /**
+     * performs SELECT * FROM table_name for a table
+     * 
+     * @param table table to select all from
+     * @throws SQLException on errors while selecting all
+     */
+    public static void SelectAllFrom(TableName table) throws SQLException {
+        boolean found = false;
+        int count = 0;
+        String tableName = table.getTableName();
+
+        // loop through the tables
+        while (!found && count < tables.length) {
+
+            if (tableName.equals(tables[count].getTableName())) {
+                // toggle found
+                found = true;
+
+                try {
+                    // init promt
+                    Prompter prompt = new Prompter("SELECTING * FROM " + tables[count].getTableName() + " table.");
+
+                    // perform SELECT * FROM table_name query
+                    tables[count].selectAll();
+
+                    // success promt
+                    prompt.endPrompt("Successfully SELECTED ALL from " + tables[count].getTableName() + " table.");
+
+                } catch (SQLException e) {
+
+                    // failure prompt
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            ++count;
+        }
+    }
 }

@@ -44,13 +44,4 @@ public class Prompter {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
-    /**
-     * Re-usable prompt class TODO no sure this is actually usefull
-     * 
-     * @param msg to print to sys out
-     */
-    public static void PromptUser(String msg) {
-        System.out.println(msg);
-    }
 }
