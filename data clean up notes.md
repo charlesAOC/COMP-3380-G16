@@ -41,6 +41,7 @@
 ### qualifying
 
 * removed all "\N" with excel remove all functionality
+* initially converted "\N" to "" but this caused problems when importing data (variable row lengths). converted "" to " " fixed this. (same for the next 2)
 * converted q1, q2,q3 to miliseconds (int) because sql server doesnt support the mm:ss.ss time format
 
 ### results
