@@ -22,6 +22,8 @@ import persistence.DropTable;
  */
 public class CircuitTable implements F1Table {
 
+    private final String tableName = TableName.CIRCUIT.getTableName();
+
     /**
      * (non-Javadoc)
      * 
@@ -30,7 +32,6 @@ public class CircuitTable implements F1Table {
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
-        String tableName = TableName.CIRCUIT.getTableName();
 
         // create statement for circuite table
         String str = """
@@ -75,7 +76,7 @@ public class CircuitTable implements F1Table {
                     alt
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername(), TableName.CIRCUIT.getTableName());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -101,8 +102,8 @@ public class CircuitTable implements F1Table {
                 stmt.setString(3, columns[2]);
                 stmt.setString(4, columns[3]);
                 stmt.setString(5, columns[4]);
-                stmt.setDouble(6, Double.valueOf(columns[5]));
-                stmt.setDouble(7, Double.valueOf(columns[6]));
+                stmt.setFloat(6, Float.valueOf(columns[5]));
+                stmt.setFloat(7, Float.valueOf(columns[6]));
                 stmt.setInt(8, Integer.valueOf(columns[7]));
                 stmt.executeUpdate();
             }
@@ -132,5 +133,10 @@ public class CircuitTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.CIRCUIT);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }

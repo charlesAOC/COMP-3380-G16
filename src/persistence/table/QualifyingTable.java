@@ -14,6 +14,7 @@ import logic.AccountHelper;
 import logic.DBConnection;
 import logic.TableName;
 import logic.util.Constants;
+import logic.util.Strings;
 import logic.util.TimeConverter;
 import persistence.DropTable;
 
@@ -23,6 +24,8 @@ import persistence.DropTable;
  */
 public class QualifyingTable implements F1Table {
 
+    private final String tableName = TableName.QUALIFYING.getTableName();
+
     /**
      * (non-Javadoc)
      * 
@@ -31,16 +34,19 @@ public class QualifyingTable implements F1Table {
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
+        String raceTable = TableName.RACE.getTableName();
+        String driverTable = TableName.DRIVER.getTableName();
+        String constructorTable = TableName.CONSTRUCTOR.getTableName();
 
         // create statement for qualifying table
         String str = """
-                IF OBJECT_ID(N'%s.qualifying', N'U') IS NULL
+                IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                 BEGIN
-                    CREATE TABLE %<s.qualifying (
+                    CREATE TABLE %1$s.%2$s (
                         qualifyId     INT  PRIMARY KEY NOT NULL,
-                        raceId        INT  FOREIGN KEY REFERENCES %<s.race (raceId) NOT NULL,
-                        driverId      INT  FOREIGN KEY REFERENCES %<s.driver (driverId) NOT NULL,
-                        constructorId INT  FOREIGN KEY REFERENCES %<s.constructor (constructorId) NOT NULL,
+                        raceId        INT  FOREIGN KEY REFERENCES %1$s.%3$s (raceId) NOT NULL,
+                        driverId      INT  FOREIGN KEY REFERENCES %1$s.%4$s (driverId) NOT NULL,
+                        constructorId INT  FOREIGN KEY REFERENCES %1$s.%5$s (constructorId) NOT NULL,
                         number        INT  NOT NULL,
                         position      INT  NOT NULL,
                         q1            INT,
@@ -48,7 +54,7 @@ public class QualifyingTable implements F1Table {
                         q3            INT
                     );
                 END
-                """.formatted(username);
+                """.formatted(username, tableName, raceTable, driverTable, constructorTable);
 
         // create the statement then execute it
         Statement stmt = DBConnection.GetConnection().createStatement();
@@ -65,7 +71,7 @@ public class QualifyingTable implements F1Table {
 
         // insert query
         String str = """
-                INSERT  INTO %s.qualifying (
+                INSERT  INTO %s.%s (
                     qualifyId,
                     raceId,
                     driverId,
@@ -77,7 +83,7 @@ public class QualifyingTable implements F1Table {
                     q3
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -98,18 +104,18 @@ public class QualifyingTable implements F1Table {
             // loop through the csv file
             while ((line = reader.readLine()) != null) {
                 String[] columns = line.split(",");
-                System.out.println(line);
+
                 stmt.setInt(1, Integer.parseInt(columns[0]));
                 stmt.setInt(2, Integer.parseInt(columns[1]));
                 stmt.setInt(3, Integer.parseInt(columns[2]));
                 stmt.setInt(4, Integer.parseInt(columns[3]));
                 stmt.setInt(5, Integer.parseInt(columns[4]));
                 stmt.setInt(6, Integer.parseInt(columns[5]));
-                if (columns.length > 6)
+                if (Strings.IsValidCell(columns[6]))
                     stmt.setInt(7, TimeConverter.ConvertToMilliSec(columns[6]));
-                if (columns.length > 7)
+                if (Strings.IsValidCell(columns[7]))
                     stmt.setInt(8, TimeConverter.ConvertToMilliSec(columns[7]));
-                if (columns.length > 8)
+                if (Strings.IsValidCell(columns[8]))
                     stmt.setInt(9, TimeConverter.ConvertToMilliSec(columns[8]));
                 stmt.executeUpdate();
             }
@@ -139,5 +145,10 @@ public class QualifyingTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.QUALIFYING);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }

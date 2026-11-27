@@ -22,6 +22,8 @@ import persistence.DropTable;
  */
 public class ConstructorResultTable implements F1Table {
 
+    private final String tableName = TableName.CONSTRUCTOR_RESULT.getTableName();
+
     /**
      * (non-Javadoc)
      * 
@@ -30,19 +32,21 @@ public class ConstructorResultTable implements F1Table {
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
+        String raceTable = TableName.RACE.getTableName();
+        String constructorTable = TableName.CONSTRUCTOR.getTableName();
 
         // create statement for constructor result table
         String str = """
-                IF OBJECT_ID(N'%s.constructor_result', N'U') IS NULL
+                IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                 BEGIN
-                    CREATE TABLE %<s.constructor_result (
+                    CREATE TABLE %1$s.%2$s (
                         constructorResultsId INT PRIMARY KEY NOT NULL,
-                        raceId               INT FOREIGN KEY REFERENCES %<s.race (raceId) NOT NULL,
-                        constructorId        INT FOREIGN KEY REFERENCES %<s.constructor (constructorId) NOT NULL,
+                        raceId               INT FOREIGN KEY REFERENCES %1$s.%3$s (raceId) NOT NULL,
+                        constructorId        INT FOREIGN KEY REFERENCES %1$s.%4$s (constructorId) NOT NULL,
                         points               DECIMAL NOT NULL
                     );
                 END
-                """.formatted(username);
+                """.formatted(username, tableName, raceTable, constructorTable);
 
         // create the statement then execute it
         Statement stmt = DBConnection.GetConnection().createStatement();
@@ -58,14 +62,14 @@ public class ConstructorResultTable implements F1Table {
     public void insertData() throws SQLException {
         // insert query
         String str = """
-                INSERT  INTO %s.constructor_result (
+                INSERT  INTO %s.%s (
                     constructorResultsId,
                     raceId,
                     constructorId,
                     points
                 )
                 VALUES (?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -89,7 +93,7 @@ public class ConstructorResultTable implements F1Table {
                 stmt.setInt(1, Integer.parseInt(columns[0]));
                 stmt.setInt(2, Integer.parseInt(columns[1]));
                 stmt.setInt(3, Integer.parseInt(columns[2]));
-                stmt.setDouble(4, Double.parseDouble(columns[3]));
+                stmt.setFloat(4, Float.parseFloat(columns[3]));
                 stmt.executeUpdate();
             }
 
@@ -118,5 +122,10 @@ public class ConstructorResultTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.CONSTRUCTOR_RESULT);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }

@@ -22,6 +22,8 @@ import persistence.DropTable;
  */
 public class DriverStandingTable implements F1Table {
 
+    private static final String tableName = TableName.DRIVER_STANDING.getTableName();
+
     /**
      * (non-Javadoc)
      * 
@@ -30,21 +32,23 @@ public class DriverStandingTable implements F1Table {
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
+        String raceTable = TableName.RACE.getTableName();
+        String driverTable = TableName.DRIVER.getTableName();
 
         // create statement for driver standings table
         String str = """
-                IF OBJECT_ID(N'%s.driver_standing', N'U') IS NULL
+                IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                 BEGIN
-                    CREATE TABLE %<s.driver_standing (
+                    CREATE TABLE %1$s.%2$s (
                         driverStandingsId INT PRIMARY KEY NOT NULL,
-                        raceId            INT FOREIGN KEY REFERENCES %<s.race (raceId) NOT NULL,
-                        driverId          INT FOREIGN KEY REFERENCES %<s.driver (driverId) NOT NULL,
+                        raceId            INT FOREIGN KEY REFERENCES %1$s.%3$s (raceId) NOT NULL,
+                        driverId          INT FOREIGN KEY REFERENCES %1$s.%4$s (driverId) NOT NULL,
                         points            DECIMAL NOT NULL,
                         position          INT NOT NULL,
                         wins              INT NOT NULL
                     );
                 END
-                """.formatted(username);
+                """.formatted(username, tableName, raceTable, driverTable);
 
         // create the statement then execute it
         Statement stmt = DBConnection.GetConnection().createStatement();
@@ -61,7 +65,7 @@ public class DriverStandingTable implements F1Table {
 
         // insert query
         String str = """
-                INSERT  INTO %s.driver_standing (
+                INSERT  INTO %s.%s (
                     driverStandingsId,
                     raceId,
                     driverId,
@@ -70,7 +74,7 @@ public class DriverStandingTable implements F1Table {
                     wins
                 )
                 VALUES (?, ?, ?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -94,7 +98,7 @@ public class DriverStandingTable implements F1Table {
                 stmt.setInt(1, Integer.parseInt(columns[0]));
                 stmt.setInt(2, Integer.parseInt(columns[1]));
                 stmt.setInt(3, Integer.parseInt(columns[2]));
-                stmt.setDouble(4, Double.parseDouble(columns[3]));
+                stmt.setFloat(4, Float.parseFloat(columns[3]));
                 stmt.setInt(5, Integer.parseInt(columns[4]));
                 stmt.setInt(6, Integer.parseInt(columns[5]));
                 stmt.executeUpdate();
@@ -125,5 +129,10 @@ public class DriverStandingTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.DRIVER_STANDING);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }

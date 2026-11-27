@@ -22,6 +22,8 @@ import persistence.DropTable;
  */
 public class PitStopTable implements F1Table {
 
+    private final String tableName = TableName.PIT_STOP.getTableName();
+
     /**
      * (non-Javadoc)
      * 
@@ -30,14 +32,16 @@ public class PitStopTable implements F1Table {
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
+        String raceTable = TableName.RACE.getTableName();
+        String driverTable = TableName.DRIVER.getTableName();
 
         // create statement for pit stops table
         String str = """
-                IF OBJECT_ID(N'%s.pit_stop', N'U') IS NULL
+                IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                 BEGIN
-                    CREATE TABLE %<s.pit_stop (
-                        raceId       INT FOREIGN KEY REFERENCES %<s.race (raceId) NOT NULL,
-                        driverId     INT FOREIGN KEY REFERENCES %<s.driver (driverId) NOT NULL,
+                    CREATE TABLE %1$s.%2$s (
+                        raceId       INT FOREIGN KEY REFERENCES %1$s.%3$s (raceId) NOT NULL,
+                        driverId     INT FOREIGN KEY REFERENCES %1$s.%4$s (driverId) NOT NULL,
                         stop         INT NOT NULL,
                         lap          INT NOT NULL,
                         milliseconds INT NOT NULL,
@@ -45,7 +49,7 @@ public class PitStopTable implements F1Table {
                     );
                 END
 
-                """.formatted(username);
+                """.formatted(username, tableName, raceTable, driverTable);
 
         // create the statement then execute it
         Statement stmt = DBConnection.GetConnection().createStatement();
@@ -62,7 +66,7 @@ public class PitStopTable implements F1Table {
 
         // insert query
         String str = """
-                INSERT  INTO %s.pit_stop (
+                INSERT  INTO %s.%s (
                     raceId,
                     driverId,
                     stop,
@@ -70,7 +74,7 @@ public class PitStopTable implements F1Table {
                     milliseconds
                 )
                 VALUES (?, ?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -125,5 +129,10 @@ public class PitStopTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.PIT_STOP);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }

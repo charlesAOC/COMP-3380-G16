@@ -29,4 +29,11 @@ public interface F1Table {
      * @throws SQLException on errors while dropping tables
      */
     void dropTable() throws SQLException;
+
+    /**
+     * Getter for the table name
+     * 
+     * @return the name of the table
+     */
+    String getTableName();
 }
