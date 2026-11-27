@@ -61,6 +61,11 @@ public class ResultTable implements F1Table {
         stmt.execute(str);
     }
 
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#insertData()
+     */
     @Override
     public void insertData() throws SQLException {
 
@@ -148,5 +153,16 @@ public class ResultTable implements F1Table {
             // reset auto commit
             connection.setAutoCommit(true);
         }
+    }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#dropTable()
+     */
+    @Override
+    public void dropTable() throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dropTable'");
     }
 }

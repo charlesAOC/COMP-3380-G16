@@ -107,4 +107,15 @@ public class ConstructorResultTable implements F1Table {
             connection.setAutoCommit(true);
         }
     }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#dropTable()
+     */
+    @Override
+    public void dropTable() throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dropTable'");
+    }
 }

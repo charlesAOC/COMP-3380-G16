@@ -110,4 +110,15 @@ public class StatusTable implements F1Table {
         }
 
     }
+
+    /**
+     * (non-Javadoc)
+     * 
+     * @see persistence.table.F1Table#dropTable()
+     */
+    @Override
+    public void dropTable() throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dropTable'");
+    }
 }
