@@ -52,9 +52,31 @@ public class TableServices {
      * @throws SQLException on any sql exception while creating tables
      */
     public static void CreateTables() throws SQLException {
-        for (F1Table table : tables) {
-            table.createTable();
+
+        // get connection and begin transaction
+        Connection connection = DBConnection.GetConnection();
+        connection.setAutoCommit(false);
+
+        try {
+
+            // create tables
+            for (F1Table table : tables) {
+                table.createTable();
+            }
+
+            // end transaction
+            connection.commit();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+            // incase of error
+            connection.rollback();
+        } finally {
+
+            // reset auto commit
+            connection.setAutoCommit(true);
         }
+
     }
 
     /**
