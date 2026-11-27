@@ -30,23 +30,24 @@ public class CircuitTable implements F1Table {
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
+        String tableName = TableName.CIRCUIT.getTableName();
 
         // create statement for circuite table
         String str = """
-                IF OBJECT_ID(N'%s.circuit', N'U') IS NULL
+                IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                 BEGIN
-                    CREATE TABLE %<s.circuit (
-                        circuitId  INT          PRIMARY KEY NOT NULL,
-                        circuitRef VARCHAR (%d) NOT NULL UNIQUE,
-                        name       VARCHAR (%<d) NOT NULL UNIQUE,
-                        location   VARCHAR (%<d) NOT NULL,
-                        country    VARCHAR (%<d) NOT NULL,
-                        lat        DECIMAL          NOT NULL,
-                        lng        DECIMAL          NOT NULL,
-                        alt        INT          NOT NULL
+                    CREATE TABLE %1$s.%2$s (
+                        circuitId  INT           PRIMARY KEY NOT NULL,
+                        circuitRef VARCHAR (%3$d)  NOT NULL UNIQUE,
+                        name       VARCHAR (%3$d) NOT NULL UNIQUE,
+                        location   VARCHAR (%3$d) NOT NULL,
+                        country    VARCHAR (%3$d) NOT NULL,
+                        lat        DECIMAL       NOT NULL,
+                        lng        DECIMAL       NOT NULL,
+                        alt        INT           NOT NULL
                     );
                 END
-                            """.formatted(username, Constants.MAX_COLUMN_LENGTH);
+                            """.formatted(username, tableName, Constants.MAX_COLUMN_LENGTH);
 
         // create the statement then execute it
         Statement stmt = DBConnection.GetConnection().createStatement();
@@ -63,7 +64,7 @@ public class CircuitTable implements F1Table {
 
         // insert query
         String str = """
-                INSERT  INTO %s.circuit (
+                INSERT  INTO %s.%s (
                     circuitId,
                     circuitRef,
                     name,
@@ -74,7 +75,7 @@ public class CircuitTable implements F1Table {
                     alt
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), TableName.CIRCUIT.getTableName());
         ;
 
         // prepared statement to be executed
