@@ -82,6 +82,7 @@ public class DriverTable implements F1Table {
 
         // begin transaction
         connection.setAutoCommit(false);
+        int count = 0; // for batching
 
         try {
             // initialize reader
@@ -100,8 +101,16 @@ public class DriverTable implements F1Table {
                 stmt.setString(4, columns[3]);
                 stmt.setDate(5, Date.valueOf(columns[4]));
                 stmt.setString(6, columns[5]);
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_REG == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();

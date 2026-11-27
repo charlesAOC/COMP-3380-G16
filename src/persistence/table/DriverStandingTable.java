@@ -83,6 +83,7 @@ public class DriverStandingTable implements F1Table {
 
         // begin transaction
         connection.setAutoCommit(false);
+        int count = 0; // for batching
 
         try {
             // initialize reader
@@ -101,8 +102,16 @@ public class DriverStandingTable implements F1Table {
                 stmt.setFloat(4, Float.parseFloat(columns[3]));
                 stmt.setInt(5, Integer.parseInt(columns[4]));
                 stmt.setInt(6, Integer.parseInt(columns[5]));
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_REG == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();

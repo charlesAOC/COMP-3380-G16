@@ -12,4 +12,8 @@ public class Constants {
 
     // path to the dataset (csv files)
     public static final String DATASET_PATH = "dataset/";
+
+    // size for batches
+    public static final int BATCH_SIZE_REG = 2000;
+    public static final int BATCH_SIZE_XL = 5000;
 }

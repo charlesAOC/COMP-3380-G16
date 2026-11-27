@@ -95,6 +95,7 @@ public class RaceTable implements F1Table {
 
             // read header row
             String line = reader.readLine();
+            int count = 0; // for batching
 
             // loop through the csv file
             while ((line = reader.readLine()) != null) {
@@ -107,8 +108,16 @@ public class RaceTable implements F1Table {
                 stmt.setDate(6, Date.valueOf(columns[5]));
                 if (columns.length > 6 && Strings.IsValidCell(columns[6])) // may have an invalid format
                     stmt.setTime(7, Time.valueOf(columns[6]));
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_REG == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();

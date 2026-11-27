@@ -111,6 +111,7 @@ public class SprintResultTable implements F1Table {
 
             // read header row
             String line = reader.readLine();
+            int count = 0; // for batching
 
             // loop through the csv file
             while ((line = reader.readLine()) != null) {
@@ -134,8 +135,16 @@ public class SprintResultTable implements F1Table {
                 if (Strings.IsValidCell(columns[12]))
                     stmt.setInt(13, TimeConverter.ConvertToMilliSec(columns[12]));
                 stmt.setInt(14, Integer.parseInt(columns[13]));
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_REG == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();

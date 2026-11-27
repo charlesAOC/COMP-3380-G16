@@ -48,11 +48,11 @@ public class ResultTable implements F1Table {
                         raceId          INT  FOREIGN KEY REFERENCES %1$s.%3$s (raceId) NOT NULL,
                         driverId        INT  FOREIGN KEY REFERENCES %1$s.%4$s (driverId) NOT NULL,
                         constructorId   INT  FOREIGN KEY REFERENCES %1$s.%5$s (constructorId) NOT NULL,
-                        number          INT  NOT NULL,
+                        number          INT ,
                         grid            INT  NOT NULL,
                         position        INT ,
                         positionOrder   INT  NOT NULL,
-                        points          INT ,
+                        points          FLOAT ,
                         laps            INT  NOT NULL,
                         milliseconds    INT ,
                         fastestLap      INT ,
@@ -115,6 +115,7 @@ public class ResultTable implements F1Table {
 
             // read header row
             String line = reader.readLine();
+            int count = 0; // for batching
 
             // loop through the csv file
             while ((line = reader.readLine()) != null) {
@@ -124,13 +125,14 @@ public class ResultTable implements F1Table {
                 stmt.setInt(2, Integer.parseInt(columns[1]));
                 stmt.setInt(3, Integer.parseInt(columns[2]));
                 stmt.setInt(4, Integer.parseInt(columns[3]));
-                stmt.setInt(5, Integer.parseInt(columns[4]));
+                if (Strings.IsValidCell(columns[4]))
+                    stmt.setInt(5, Integer.parseInt(columns[4])); ////////////
                 stmt.setInt(6, Integer.parseInt(columns[5]));
                 if (Strings.IsValidCell(columns[6]))
                     stmt.setInt(7, Integer.parseInt(columns[6]));
                 stmt.setInt(8, Integer.parseInt(columns[7]));
                 if (Strings.IsValidCell(columns[8]))
-                    stmt.setInt(9, Integer.parseInt(columns[8]));
+                    stmt.setFloat(9, Float.parseFloat(columns[8]));/////////
                 stmt.setInt(10, Integer.parseInt(columns[9]));
                 if (Strings.IsValidCell(columns[10]))
                     stmt.setInt(11, Integer.parseInt(columns[10]));
@@ -143,8 +145,16 @@ public class ResultTable implements F1Table {
                 if (Strings.IsValidCell(columns[14]))
                     stmt.setFloat(15, Float.parseFloat(columns[14]));
                 stmt.setInt(16, Integer.parseInt(columns[15]));
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_XL == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();
