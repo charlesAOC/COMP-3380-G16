@@ -165,14 +165,14 @@ public class CircuitTable implements F1Table {
 
         // output configuration
         TabData[] colData = {
-                new TabData(15, "circuitId"),
-                new TabData(15, "circuitRef"),
-                new TabData(40, "name"),
-                new TabData(25, "location"),
-                new TabData(15, "country"),
-                new TabData(15, "lat"),
-                new TabData(15, "lng"),
-                new TabData(10, "alt")
+                new TabData("circuitId", 15),
+                new TabData("circuitRef", 15),
+                new TabData("name", 40),
+                new TabData("location", 25),
+                new TabData("country", 15),
+                new TabData("lat", 15),
+                new TabData("lng", 15),
+                new TabData("alt", 10)
         };
 
         // print output header
