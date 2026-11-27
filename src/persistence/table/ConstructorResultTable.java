@@ -143,7 +143,7 @@ public class ConstructorResultTable implements F1Table {
     }
 
     /**
-     * (non-Javadoc)
+     * (non-Javadoc) TODO: implement pagination
      * 
      * @see persistence.table.F1Table#selectAll()
      */
