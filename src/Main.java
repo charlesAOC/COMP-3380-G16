@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.TableName;
 import logic.TableServices;
 
 /**
@@ -62,6 +63,9 @@ public class Main {
 
             // insert the data into tables
             // TableServices.InsertData();
+
+            // select from table (change table name to preview tables)
+            // TableServices.SelectAllFrom(TableName.STATUS);
 
             // drop tables
             // TableServices.DropTables();
