@@ -166,7 +166,7 @@ public class DriverTable implements F1Table {
                 new TabData("forename", 20),
                 new TabData("surname", 25),
                 new TabData("dob", 12),
-                new TabData("nationality", 15)
+                new TabData("nationality", 20)
         };
 
         // print output header
