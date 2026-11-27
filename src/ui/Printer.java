@@ -13,8 +13,8 @@ public class Printer {
     /**
      * prints the header row for a query output
      * 
-     * @param colData column data for the output column to print
-     * @return column width for the output column
+     * @param colData column data for the output table
+     * @return table width for the output table
      */
     public static int PrintHeader(TabData[] colData) {
 
@@ -59,11 +59,11 @@ public class Printer {
     /**
      * Prints a footer for the output table
      * 
-     * @param colWidth width of the output table (col width it passed from
-     *                 PrintHeader)
+     * @param tableWidth width of the output table (col width it passed from
+     *                   PrintHeader)
      */
-    public static void PrintFooter(int colWidth) {
-        System.out.println("-".repeat(colWidth));
+    public static void PrintFooter(int tableWidth) {
+        System.out.println("-".repeat(tableWidth));
     }
 
     /**

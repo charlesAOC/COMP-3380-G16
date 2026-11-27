@@ -13,6 +13,7 @@ import java.sql.Statement;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.Pagination;
 import logic.TableName;
 import logic.util.Constants;
 import logic.util.Strings;
@@ -193,7 +194,7 @@ public class ResultTable implements F1Table {
     }
 
     /**
-     * (non-Javadoc) TODO: needs pagination
+     * (non-Javadoc)
      * 
      * @see persistence.table.F1Table#selectAll()
      */
@@ -224,10 +225,13 @@ public class ResultTable implements F1Table {
         };
 
         // print output header
-        int colWidth = Printer.PrintHeader(colData);
+        int tableWidth = Printer.PrintHeader(colData);
+
+        // init pagination
+        Pagination pagination = new Pagination(null);
 
         // display results
-        while (res.next()) {
+        while (res.next() && !pagination.isTerminated()) {
 
             // convert output to string
             String[] colValues = { res.getInt(1) + "", // resultId
@@ -250,9 +254,12 @@ public class ResultTable implements F1Table {
 
             // print output row
             Printer.PrintRow(colData, colValues);
+
+            // trigger pagination at page limit
+            pagination.paginate(colData, tableWidth);
         }
 
         // print output footer
-        Printer.PrintFooter(colWidth);
+        Printer.PrintFooter(tableWidth);
     }
 }
