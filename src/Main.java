@@ -14,6 +14,7 @@ import persistence.table.DriverStandingTable;
 import persistence.table.LapTimeTable;
 import persistence.table.PitStopTable;
 import persistence.table.QualifyingTable;
+import persistence.table.ResultTable;
 import persistence.table.SprintResultTable;
 
 /**
@@ -78,7 +79,8 @@ public class Main {
             // new LapTimeTable().insertData();
             // new QualifyingTable().insertData();
             // new SprintResultTable().insertData();
-            new PitStopTable().insertData();
+            // new PitStopTable().insertData();
+            new ResultTable().insertData();
 
             // close the connection
             connection.close();
