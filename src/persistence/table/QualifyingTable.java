@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -18,6 +19,8 @@ import logic.util.Strings;
 import logic.util.TimeConverter;
 import persistence.DropTable;
 import persistence.SelectAll;
+import ui.Printer;
+import ui.util.TabData;
 
 /**
  * QualifyingTable
@@ -163,12 +166,52 @@ public class QualifyingTable implements F1Table {
     }
 
     /**
-     * (non-Javadoc)
+     * (non-Javadoc) TODO: needs pagination
      * 
      * @see persistence.table.F1Table#selectAll()
      */
     @Override
     public void selectAll() throws SQLException {
-        SelectAll.SelectAllFromTable(tableName);
+
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // output configuration
+        TabData[] colData = {
+                new TabData("qualifyId", 10),
+                new TabData("raceId", 10),
+                new TabData("driverId", 8),
+                new TabData("constructorId", 8),
+                new TabData("number", 13),
+                new TabData("position", 13),
+                new TabData("q1", 13),
+                new TabData("q2", 13),
+                new TabData("q3", 13),
+        };
+
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
+        // display results
+        while (res.next()) {
+
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "",
+                    res.getInt(2) + "",
+                    res.getInt(3) + "",
+                    res.getInt(4) + "",
+                    res.getInt(5) + "",
+                    res.getInt(6) + "",
+                    res.getInt(7) + "",
+                    res.getInt(8) + "",
+                    res.getInt(9) + "",
+            };
+
+            // print output row
+            Printer.PrintRow(colData, colValues);
+        }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }
