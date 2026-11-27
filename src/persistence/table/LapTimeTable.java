@@ -134,7 +134,7 @@ public class LapTimeTable implements F1Table {
     }
 
     /**
-     * (non-Javadoc) TODO: need pagination badly!!!!
+     * (non-Javadoc)
      * 
      * @see persistence.table.F1Table#dropTable()
      */
@@ -149,7 +149,7 @@ public class LapTimeTable implements F1Table {
     }
 
     /**
-     * (non-Javadoc)
+     * (non-Javadoc) TODO: need pagination badly!!!!
      * 
      * @see persistence.table.F1Table#selectAll()
      */
