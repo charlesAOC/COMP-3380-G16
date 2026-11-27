@@ -17,6 +17,8 @@ import logic.TableName;
 import logic.util.Constants;
 import persistence.DropTable;
 import persistence.SelectAll;
+import ui.util.Printer;
+import ui.util.TabData;
 
 /**
  * CircuitTable
@@ -161,26 +163,33 @@ public class CircuitTable implements F1Table {
         // perform selct * from table_name query
         ResultSet res = SelectAll.SelectAllFromTable(tableName);
 
+        // output configuration
+        TabData[] colData = {
+                new TabData(15, "circuitId"),
+                new TabData(15, "circuitRef"),
+                new TabData(40, "name"),
+                new TabData(25, "location"),
+                new TabData(15, "country"),
+                new TabData(15, "lat"),
+                new TabData(15, "lng"),
+                new TabData(10, "alt")
+        };
+
         // display results
         while (res.next()) {
-            int circuitId = res.getInt(1);
-            String circuitRef = res.getString(2);
-            String name = res.getString(3);
-            String location = res.getString(4);
-            String country = res.getString(5);
-            float lat = res.getFloat(6);
-            float lng = res.getFloat(7);
-            int alt = res.getInt(8);
 
-            System.out.println("%d, %s, %s, %s, %s, %.5f, %.5f, %d".formatted(
-                    circuitId,
-                    circuitRef,
-                    name,
-                    location,
-                    country,
-                    lat,
-                    lng,
-                    alt));
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "",
+                    res.getString(2),
+                    res.getString(3),
+                    res.getString(4),
+                    res.getString(5),
+                    res.getFloat(6) + "",
+                    res.getFloat(7) + "",
+                    res.getInt(8) + "" };
+
+            // print output
+            Printer.PrintRow(colData, colValues);
         }
     }
 }
