@@ -92,6 +92,7 @@ public class QualifyingTable implements F1Table {
 
         // begin transaction
         connection.setAutoCommit(false);
+        int count = 0; // for batching
 
         try {
             // initialize reader
@@ -117,8 +118,16 @@ public class QualifyingTable implements F1Table {
                     stmt.setInt(8, TimeConverter.ConvertToMilliSec(columns[7]));
                 if (Strings.IsValidCell(columns[8]))
                     stmt.setInt(9, TimeConverter.ConvertToMilliSec(columns[8]));
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_REG == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();

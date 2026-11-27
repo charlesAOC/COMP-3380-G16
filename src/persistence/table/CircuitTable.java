@@ -93,6 +93,7 @@ public class CircuitTable implements F1Table {
 
             // read header row
             String line = reader.readLine();
+            int count = 0; // for batching
 
             // loop through the csv file
             while ((line = reader.readLine()) != null) {
@@ -105,8 +106,16 @@ public class CircuitTable implements F1Table {
                 stmt.setFloat(6, Float.valueOf(columns[5]));
                 stmt.setFloat(7, Float.valueOf(columns[6]));
                 stmt.setInt(8, Integer.valueOf(columns[7]));
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_REG == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();

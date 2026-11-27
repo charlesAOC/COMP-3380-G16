@@ -80,6 +80,7 @@ public class StatusTable implements F1Table {
 
         // begin transaction
         connection.setAutoCommit(false);
+        int count = 0; // for batching
 
         try {
             // initialize reader
@@ -94,8 +95,16 @@ public class StatusTable implements F1Table {
                 String[] columns = line.split(",");
                 stmt.setInt(1, Integer.parseInt(columns[0]));
                 stmt.setString(2, columns[1]);
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_REG == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();

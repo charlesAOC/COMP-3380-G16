@@ -86,6 +86,7 @@ public class ConstructorResultTable implements F1Table {
 
             // read header row
             String line = reader.readLine();
+            int count = 0; // for batching
 
             // loop through the csv file
             while ((line = reader.readLine()) != null) {
@@ -94,8 +95,16 @@ public class ConstructorResultTable implements F1Table {
                 stmt.setInt(2, Integer.parseInt(columns[1]));
                 stmt.setInt(3, Integer.parseInt(columns[2]));
                 stmt.setFloat(4, Float.parseFloat(columns[3]));
-                stmt.executeUpdate();
+                stmt.addBatch(); // add to batch
+
+                // add batch to db
+                if (++count % Constants.BATCH_SIZE_REG == 0) {
+                    stmt.executeBatch();
+                }
             }
+
+            // add any left overs
+            stmt.executeBatch();
 
             // close reader
             reader.close();
