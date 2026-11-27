@@ -24,6 +24,8 @@ import persistence.DropTable;
  */
 public class ResultTable implements F1Table {
 
+    private final String tableName = TableName.RESULT.getTableName();
+
     /**
      * (non-Javadoc)
      * 
@@ -32,16 +34,20 @@ public class ResultTable implements F1Table {
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
+        String raceTable = TableName.RACE.getTableName();
+        String driverTable = TableName.DRIVER.getTableName();
+        String constructorTable = TableName.CONSTRUCTOR.getTableName();
+        String statusTable = TableName.STATUS.getTableName();
 
         // create statement for result table
         String str = """
-                IF OBJECT_ID(N'%s.result', N'U') IS NULL
+                IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                 BEGIN
-                    CREATE TABLE %<s.result (
+                    CREATE TABLE %1$s.%2$s (
                         resultId        INT  PRIMARY KEY NOT NULL,
-                        raceId          INT  FOREIGN KEY REFERENCES %<s.race (raceId) NOT NULL,
-                        driverId        INT  FOREIGN KEY REFERENCES %<s.driver (driverId) NOT NULL,
-                        constructorId   INT  FOREIGN KEY REFERENCES %<s.constructor (constructorId) NOT NULL,
+                        raceId          INT  FOREIGN KEY REFERENCES %1$s.%3$s (raceId) NOT NULL,
+                        driverId        INT  FOREIGN KEY REFERENCES %1$s.%4$s (driverId) NOT NULL,
+                        constructorId   INT  FOREIGN KEY REFERENCES %1$s.%5$s (constructorId) NOT NULL,
                         number          INT  NOT NULL,
                         grid            INT  NOT NULL,
                         position        INT ,
@@ -53,10 +59,10 @@ public class ResultTable implements F1Table {
                         rank            INT ,
                         fastestLapTime  INT,
                         fastestLapSpeed FLOAT ,
-                        statusId        INT  FOREIGN KEY REFERENCES %<s.status (statusId) NOT NULL
+                        statusId        INT  FOREIGN KEY REFERENCES %1$s.%6$s (statusId) NOT NULL
                     );
                 END
-                """.formatted(username);
+                """.formatted(username, tableName, raceTable, driverTable, constructorTable, statusTable);
 
         // create the statement then execute it
         Statement stmt = DBConnection.GetConnection().createStatement();
@@ -73,7 +79,7 @@ public class ResultTable implements F1Table {
 
         // insert query
         String str = """
-                INSERT  INTO %s.result (
+                INSERT  INTO %s.%s (
                     resultId,
                     raceId,
                     driverId,
@@ -92,7 +98,7 @@ public class ResultTable implements F1Table {
                     statusId
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -165,5 +171,10 @@ public class ResultTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.RESULT);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }

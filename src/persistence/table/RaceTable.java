@@ -16,6 +16,7 @@ import logic.AccountHelper;
 import logic.DBConnection;
 import logic.TableName;
 import logic.util.Constants;
+import logic.util.Strings;
 import persistence.DropTable;
 
 /**
@@ -23,6 +24,8 @@ import persistence.DropTable;
  * cclass for managing the race table
  */
 public class RaceTable implements F1Table {
+
+    private final String tableName = TableName.RACE.getTableName();
 
     /**
      * (non-Javadoc)
@@ -32,22 +35,23 @@ public class RaceTable implements F1Table {
     @Override
     public void createTable() throws SQLException {
         String username = AccountHelper.getUsername(); // get the username for the session
+        String circuitTable = TableName.CIRCUIT.getTableName();
 
         // create statement for race table
         String str = """
-                IF OBJECT_ID(N'%s.race', N'U') IS NULL
+                IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                 BEGIN
-                    CREATE TABLE %<s.race (
+                    CREATE TABLE %1$s.%2$s (
                         raceId    INT          PRIMARY KEY NOT NULL,
                         year      INT          NOT NULL,
                         round     INT          NOT NULL,
-                        circuitId INT          FOREIGN KEY REFERENCES %<s.circuit (circuitId) NOT NULL,
-                        name      VARCHAR (%d) NOT NULL,
+                        circuitId INT          FOREIGN KEY REFERENCES %1$s.%4$s (circuitId) NOT NULL,
+                        name      VARCHAR (%3$d) NOT NULL,
                         date      DATE         NOT NULL,
                         time      TIME
                     );
                 END
-                """.formatted(username, Constants.MAX_COLUMN_LENGTH);
+                """.formatted(username, tableName, Constants.MAX_COLUMN_LENGTH, circuitTable);
 
         // create the statement then execute it
         Statement stmt = DBConnection.GetConnection().createStatement();
@@ -64,7 +68,7 @@ public class RaceTable implements F1Table {
 
         // insert query
         String str = """
-                INSERT  INTO %s.race (
+                INSERT  INTO %s.%s (
                     raceId,
                     year,
                     round,
@@ -74,7 +78,7 @@ public class RaceTable implements F1Table {
                     time
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -101,7 +105,7 @@ public class RaceTable implements F1Table {
                 stmt.setInt(4, Integer.parseInt(columns[3]));
                 stmt.setString(5, columns[4]);
                 stmt.setDate(6, Date.valueOf(columns[5]));
-                if (columns.length == 7)
+                if (columns.length > 6 && Strings.IsValidCell(columns[6])) // may have an invalid format
                     stmt.setTime(7, Time.valueOf(columns[6]));
                 stmt.executeUpdate();
             }
@@ -131,5 +135,10 @@ public class RaceTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.RACE);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }

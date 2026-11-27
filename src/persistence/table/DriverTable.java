@@ -23,6 +23,8 @@ import persistence.DropTable;
  */
 public class DriverTable implements F1Table {
 
+    private final String tableName = TableName.DRIVER.getTableName();
+
     /**
      * (non-Javadoc)
      * 
@@ -34,18 +36,18 @@ public class DriverTable implements F1Table {
 
         // create statement for driver table
         String str = """
-                IF OBJECT_ID(N'%s.driver', N'U') IS NULL
+                IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                 BEGIN
-                    CREATE TABLE %<s.driver (
+                    CREATE TABLE %1$s.%2$s (
                         driverId    INT          PRIMARY KEY NOT NULL,
-                        driverRef   VARCHAR (%d) NOT NULL UNIQUE,
-                        forename    VARCHAR (%<d) NOT NULL,
-                        surname     VARCHAR (%<d) NOT NULL,
+                        driverRef   VARCHAR (%3$d) NOT NULL UNIQUE,
+                        forename    VARCHAR (%3$d) NOT NULL,
+                        surname     VARCHAR (%3$d) NOT NULL,
                         dob         DATE         NOT NULL,
-                        nationality VARCHAR (%<d) NOT NULL
+                        nationality VARCHAR (%3$d) NOT NULL
                     );
                 END
-                """.formatted(username, Constants.MAX_COLUMN_LENGTH);
+                """.formatted(username, tableName, Constants.MAX_COLUMN_LENGTH);
 
         // create the statement then execute it
         Statement stmt = DBConnection.GetConnection().createStatement();
@@ -62,7 +64,7 @@ public class DriverTable implements F1Table {
 
         // insert query
         String str = """
-                INSERT  INTO %s.driver (
+                INSERT  INTO %s.%s (
                     driverId,
                     driverRef,
                     forename,
@@ -71,7 +73,7 @@ public class DriverTable implements F1Table {
                     nationality
                 )
                 VALUES (?, ?, ?, ?, ?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -126,5 +128,10 @@ public class DriverTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.DRIVER);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }

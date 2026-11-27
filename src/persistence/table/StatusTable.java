@@ -22,6 +22,8 @@ import persistence.DropTable;
  */
 public class StatusTable implements F1Table {
 
+    private final String tableName = TableName.STATUS.getTableName();
+
     /**
      * (non-Javadoc)
      * 
@@ -33,14 +35,14 @@ public class StatusTable implements F1Table {
 
         // create statement
         String str = """
-                        IF OBJECT_ID(N'%s.status', N'U') IS NULL
+                        IF OBJECT_ID(N'%1$s.%2$s', N'U') IS NULL
                         BEGIN
-                            CREATE TABLE %<s.status (
+                            CREATE TABLE %1$s.%2$s (
                                 statusId INT          PRIMARY KEY NOT NULL,
-                                status   VARCHAR (%d) NOT NULL UNIQUE
+                                status   VARCHAR (%3$d) NOT NULL UNIQUE
                             );
                         END
-                """.formatted(username, Constants.MAX_COLUMN_LENGTH);
+                """.formatted(username, tableName, Constants.MAX_COLUMN_LENGTH);
         ;
 
         // get db connection
@@ -64,12 +66,12 @@ public class StatusTable implements F1Table {
 
         // insert query
         String str = """
-                INSERT  INTO %s.status (
+                INSERT  INTO %s.%s (
                     statusId,
                     status
                 )
                 VALUES (?, ?);
-                        """.formatted(AccountHelper.getUsername());
+                        """.formatted(AccountHelper.getUsername(), tableName);
         ;
 
         // prepared statement to be executed
@@ -121,5 +123,10 @@ public class StatusTable implements F1Table {
     @Override
     public void dropTable() throws SQLException {
         DropTable.DropATable(TableName.STATUS);
+    }
+
+    // getter
+    public String getTableName() {
+        return this.tableName;
     }
 }
