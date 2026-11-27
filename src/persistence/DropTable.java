@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 import logic.AccountHelper;
 import logic.DBConnection;
+import logic.TableName;
 
 /**
  * DropTable
@@ -19,12 +20,12 @@ public class DropTable {
      * @param tableName name of table to drop
      * @throws SQLException on error while dropping tables
      */
-    public static void DropATable(String tableName) throws SQLException {
+    public static void DropATable(TableName tableName) throws SQLException {
 
         String username = AccountHelper.getUsername();
 
         // sql statement
-        String str = "DROP TABLE IF EXISTS %s.$s;".formatted(username, tableName);
+        String str = "DROP TABLE IF EXISTS %s.$s;".formatted(username, tableName.getTableName());
 
         // create connection
         Connection connection = DBConnection.GetConnection();

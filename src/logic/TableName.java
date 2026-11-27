@@ -1,4 +1,4 @@
-package persistence.table;
+package logic;
 
 /**
  * TableName
