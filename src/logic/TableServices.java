@@ -1,5 +1,6 @@
 package logic;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import persistence.table.CircuitTable;
@@ -74,9 +75,28 @@ public class TableServices {
      */
     public static void DropTables() throws SQLException {
 
-        // drop tables in reverse order
-        for (int ind = tables.length - 1; ind >= 0; ind--) {
-            tables[ind].dropTable();
+        // get connection and begin transaction
+        Connection connection = DBConnection.GetConnection();
+        connection.setAutoCommit(false);
+
+        try {
+            // drop tables in reverse order
+            for (int ind = tables.length - 1; ind >= 0; ind--) {
+                tables[ind].dropTable();
+            }
+
+            // commit if no errors
+            connection.commit();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+            // roll back if error
+            connection.rollback();
+        } finally {
+
+            // reset auto commit
+            connection.setAutoCommit(true);
         }
+
     }
 }
