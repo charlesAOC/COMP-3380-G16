@@ -61,7 +61,15 @@ public class TableServices {
 
             // create tables
             for (F1Table table : tables) {
+
+                // init promt
+                Prompter prompt = new Prompter("Creating " + table.getTableName() + " table.");
+
+                // create table
                 table.createTable();
+
+                // success promt
+                prompt.endPrompt("Successfully created the " + table.getTableName() + " table.");
             }
 
             // end transaction
@@ -88,7 +96,14 @@ public class TableServices {
      */
     public static void InsertData() throws SQLException {
         for (F1Table table : tables) {
+            // init promt
+            Prompter prompt = new Prompter("Inserting into " + table.getTableName() + " table.");
+
+            // insert into table
             table.insertData();
+
+            // success promt
+            prompt.endPrompt("Successfully inserted into the " + table.getTableName() + " table.");
         }
     }
 
@@ -106,7 +121,14 @@ public class TableServices {
         try {
             // drop tables in reverse order
             for (int ind = tables.length - 1; ind >= 0; ind--) {
+                // init promt
+                Prompter prompt = new Prompter("Dropping " + tables[ind].getTableName() + " table.");
+
+                // drop table
                 tables[ind].dropTable();
+
+                // success promt
+                prompt.endPrompt("Successfully dropped the " + tables[ind].getTableName() + " table.");
             }
 
             // commit if no errors
