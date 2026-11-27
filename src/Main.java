@@ -58,13 +58,13 @@ public class Main {
             Connection connection = DBConnection.InitConnection(connectionUrl);
 
             // create tables if they arent already created
-            // TableServices.CreateTables();
+            TableServices.CreateTables();
 
             // insert the data into tables
             // TableServices.InsertData();
 
             // drop tables
-            TableServices.DropTables();
+            // TableServices.DropTables();
 
             // close the connection
             connection.close();
