@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
@@ -19,6 +20,8 @@ import logic.util.Constants;
 import logic.util.Strings;
 import persistence.DropTable;
 import persistence.SelectAll;
+import ui.Printer;
+import ui.util.TabData;
 
 /**
  * RaceTable
@@ -153,12 +156,48 @@ public class RaceTable implements F1Table {
     }
 
     /**
-     * (non-Javadoc)
+     * (non-Javadoc) TODO: needs pagination
      * 
      * @see persistence.table.F1Table#selectAll()
      */
     @Override
     public void selectAll() throws SQLException {
-        SelectAll.SelectAllFromTable(tableName);
+
+        // perform selct * from table_name query
+        ResultSet res = SelectAll.SelectAllFromTable(tableName);
+
+        // output configuration
+        TabData[] colData = {
+                new TabData("raceId", 10),
+                new TabData("year", 10),
+                new TabData("round", 8),
+                new TabData("circuitId", 8),
+                new TabData("name", 30),
+                new TabData("date", 12),
+                new TabData("time", 10),
+        };
+
+        // print output header
+        int colWidth = Printer.PrintHeader(colData);
+
+        // display results
+        while (res.next()) {
+
+            // convert output to string
+            String[] colValues = { res.getInt(1) + "",
+                    res.getInt(2) + "",
+                    res.getInt(3) + "",
+                    res.getInt(4) + "",
+                    res.getString(5),
+                    res.getDate(6).toString(),
+                    res.getTime(7).toString()
+            };
+
+            // print output row
+            Printer.PrintRow(colData, colValues);
+        }
+
+        // print output footer
+        Printer.PrintFooter(colWidth);
     }
 }
