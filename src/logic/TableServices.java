@@ -73,8 +73,10 @@ public class TableServices {
      * @throws SQLException on any sql execption while dropping tables
      */
     public static void DropTables() throws SQLException {
-        for (F1Table table : tables) {
 
+        // drop tables in reverse order
+        for (int ind = tables.length - 1; ind >= 0; ind--) {
+            tables[ind].dropTable();
         }
     }
 }
