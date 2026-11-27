@@ -34,7 +34,7 @@ public class Prompter {
      */
     public void endPrompt(String msg) {
         long elapsedTime = System.nanoTime() - this.startTime;
-        System.out.printf("%s took %.3f ms%n", msg, elapsedTime / 1000000);
+        System.out.println(String.format("%s took %d ms", msg, (int) (elapsedTime / 1000000)));
     }
 
     /**
