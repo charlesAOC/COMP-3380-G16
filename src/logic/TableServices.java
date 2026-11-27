@@ -48,11 +48,22 @@ public class TableServices {
     /**
      * Creates all the tables related to the project
      * 
-     * @throws SQLException
+     * @throws SQLException on any sql exception
      */
     public static void CreateTables() throws SQLException {
         for (F1Table table : tables) {
             table.createTable();
+        }
+    }
+
+    /**
+     * Inserts all the data from the csv files into the created tables
+     * 
+     * @throws SQLException on any sql exception
+     */
+    public static void InsertData() throws SQLException {
+        for (F1Table table : tables) {
+            table.insertData();
         }
     }
 }

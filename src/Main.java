@@ -8,14 +8,6 @@ import java.util.Properties;
 import logic.AccountHelper;
 import logic.DBConnection;
 import logic.TableServices;
-import persistence.table.ConstructorResultTable;
-import persistence.table.ConstructorStandingTable;
-import persistence.table.DriverStandingTable;
-import persistence.table.LapTimeTable;
-import persistence.table.PitStopTable;
-import persistence.table.QualifyingTable;
-import persistence.table.ResultTable;
-import persistence.table.SprintResultTable;
 
 /**
  * Main activity for the application
@@ -68,19 +60,8 @@ public class Main {
             // create tables if they arent already created
             TableServices.CreateTables();
 
-            // new StatusTable().insertData();
-            // new ConstructorTable().insertData();
-            // new CircuitTable().insertData();
-            // new DriverTable().insertData();
-            // new RaceTable().insertData();
-            // new ConstructorResultTable().insertData();
-            // new ConstructorStandingTable().insertData();
-            // new DriverStandingTable().insertData();
-            // new LapTimeTable().insertData();
-            // new QualifyingTable().insertData();
-            // new SprintResultTable().insertData();
-            // new PitStopTable().insertData();
-            new ResultTable().insertData();
+            // insert the data into tables
+            // TableServices.InsertData();
 
             // close the connection
             connection.close();
