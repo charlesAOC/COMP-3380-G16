@@ -13,6 +13,7 @@ import java.sql.Statement;
 import logic.AccountHelper;
 import logic.DBConnection;
 import logic.util.Constants;
+import logic.util.TimeConverter;
 
 /**
  * QualifyingTable
@@ -103,11 +104,11 @@ public class QualifyingTable implements F1Table {
                 stmt.setInt(5, Integer.parseInt(columns[4]));
                 stmt.setInt(6, Integer.parseInt(columns[5]));
                 if (columns.length > 6)
-                    stmt.setInt(7, ConvertToMilliSec(columns[6]));
+                    stmt.setInt(7, TimeConverter.ConvertToMilliSec(columns[6]));
                 if (columns.length > 7)
-                    stmt.setInt(8, ConvertToMilliSec(columns[7]));
+                    stmt.setInt(8, TimeConverter.ConvertToMilliSec(columns[7]));
                 if (columns.length > 8)
-                    stmt.setInt(9, ConvertToMilliSec(columns[8]));
+                    stmt.setInt(9, TimeConverter.ConvertToMilliSec(columns[8]));
                 stmt.executeUpdate();
             }
 
@@ -126,37 +127,5 @@ public class QualifyingTable implements F1Table {
             // reset auto commit
             connection.setAutoCommit(true);
         }
-    }
-
-    /**
-     * COnverts lap times to integer milliseconds
-     * 
-     * @param time in mm:ss.ss format to convert
-     * @return integer milliseconds or null for invalid input
-     */
-    private Integer ConvertToMilliSec(String time) {
-
-        // split time using the :
-        String[] spltTime = time.split(":");
-        Integer milliSec = null;
-
-        // check that its a valid format
-        if (spltTime.length > 1) {
-
-            try {
-                // extract data
-                int min = Integer.parseInt(spltTime[0].trim());
-                float sec = Float.parseFloat(spltTime[1].trim());
-
-                // convert data
-                milliSec = (int) ((min * 60 * 1000) + (sec * 1000));
-            } catch (NumberFormatException e) {
-                System.out.println(e.getMessage());
-                milliSec = null;
-            }
-
-        }
-
-        return milliSec;
     }
 }
