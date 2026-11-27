@@ -184,13 +184,13 @@ public class RaceTable implements F1Table {
         while (res.next()) {
 
             // convert output to string
-            String[] colValues = { res.getInt(1) + "",
-                    res.getInt(2) + "",
-                    res.getInt(3) + "",
-                    res.getInt(4) + "",
-                    res.getString(5),
-                    res.getDate(6).toString(),
-                    res.getTime(7).toString()
+            String[] colValues = { res.getInt(1) + "", // raceId
+                    res.getInt(2) + "", // year
+                    res.getInt(3) + "", // round
+                    res.getInt(4) + "", // circuitId
+                    res.getString(5), // name
+                    res.getDate(6).toString(), // date
+                    res.getTime(7).toString() // time
             };
 
             // print output row

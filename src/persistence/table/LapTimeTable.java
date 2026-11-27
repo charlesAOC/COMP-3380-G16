@@ -175,11 +175,11 @@ public class LapTimeTable implements F1Table {
         while (res.next()) {
 
             // convert output to string
-            String[] colValues = { res.getInt(1) + "",
-                    res.getInt(2) + "",
-                    res.getInt(3) + "",
-                    res.getInt(4) + "",
-                    res.getInt(5) + "",
+            String[] colValues = { res.getInt(1) + "", // raceId
+                    res.getInt(2) + "", // driverId
+                    res.getInt(3) + "", // lap
+                    res.getInt(4) + "", // position
+                    res.getInt(5) + "", // milliseconds
             };
 
             // print output row

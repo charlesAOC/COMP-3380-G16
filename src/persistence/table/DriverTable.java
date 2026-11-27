@@ -176,12 +176,12 @@ public class DriverTable implements F1Table {
         while (res.next()) {
 
             // convert output to string
-            String[] colValues = { res.getInt(1) + "",
-                    res.getString(2),
-                    res.getString(3),
-                    res.getString(4),
-                    res.getDate(5).toString(),
-                    res.getString(6)
+            String[] colValues = { res.getInt(1) + "", // driverId
+                    res.getString(2), // driverRef
+                    res.getString(3), // forename
+                    res.getString(4), // surname
+                    res.getDate(5).toString(), // dob
+                    res.getString(6) // nationality
             };
 
             // print output row
