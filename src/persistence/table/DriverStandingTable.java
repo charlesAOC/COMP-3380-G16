@@ -174,7 +174,6 @@ public class DriverStandingTable implements F1Table {
         // print output header
         int tableWidth = Printer.PrintHeader(colData);
 
-        // TODO: bug on pagination passed 300
         // init pagination
         Pagination pagination = new Pagination(null);
 
