@@ -1,8 +1,10 @@
 package ui;
+
 import java.util.Scanner;
-import java.sql.SQLException;
 
 import logic.TableServices;
+import persistence.AvgLapByCircuit;
+import persistence.DangerAndAttribution;
 import logic.TableName;
 
 public class UserInterface {
@@ -36,7 +38,6 @@ public class UserInterface {
                         printQueries();
                         break;
 
-
                     case "create":
                         TableServices.CreateTables();
                         System.out.println("Tables initialized.");
@@ -49,11 +50,9 @@ public class UserInterface {
                     case "select":
                         if (arg.isEmpty()) {
                             System.out.println(
-                                "Require a table name."
-                            );
+                                    "Require a table name.");
                         } else {
-                            TableName table =
-                                TableName.valueOf(arg.toUpperCase());
+                            TableName table = TableName.valueOf(arg.toUpperCase());
 
                             TableServices.SelectAllFrom(table);
                         }
@@ -70,24 +69,18 @@ public class UserInterface {
 
                     default:
                         System.out.println(
-                            "Unknown command. Type h for help."
-                        );
+                                "Unknown command. Type h for help.");
                         break;
-                        
 
+                    // TODO: SQL QUERY COMMANDS
+                    // TODO: BACKUP DB COMMAND
+                    case "0":
+                        (new DangerAndAttribution()).executeQuery();
+                        break;
 
-                        //TODO: SQL QUERY COMMANDS
-                        //TODO: BACKUP DB COMMAND
-                        case "0":
-                            logic.Queries queries = new logic.Queries();
-                            queries.dangerAndAttritionQuery();
-                            break;
-
-                        case "1":
-                            logic.Queries queries1 = new logic.Queries();
-                            queries1.AVGLapByCircuitQuery();
-                            break;
-                        
+                    case "1":
+                        (new AvgLapByCircuit()).executeQuery();
+                        break;
 
                 }
 
@@ -115,6 +108,7 @@ public class UserInterface {
         System.out.println("Queries        -List of available queries");
         System.out.println("q          - Quit");
     }
+
     private static void printQueries() {
         System.out.println("Available queries:");
         System.out.println("0              - Danger and Attrition Query");
