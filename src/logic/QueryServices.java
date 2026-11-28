@@ -6,6 +6,7 @@ import java.util.Map;
 
 import persistence.AvgLapByCircuit;
 import persistence.DangerAndAttribution;
+import ui.Prompter;
 
 public class QueryServices {
 
@@ -20,7 +21,8 @@ public class QueryServices {
             "create", () -> CreateTables(),
             "insert", () -> InsertData(),
             "select", () -> SelectData(USERARG),
-            "tables", () -> PrintTables()));
+            "tables", () -> PrintTables(),
+            "clear", () -> Prompter.clearConsole()));
 
     public static boolean Execute(String cmd, String arg) {
 
@@ -48,6 +50,7 @@ public class QueryServices {
         System.out.println("select <table> - Display table contents");
         System.out.println("tables         - List available tables");
         System.out.println("Queries        -List of available queries");
+        System.out.println("clear          -clear the terminal");
         System.out.println("q          - Quit");
     }
 
