@@ -8,11 +8,22 @@ import persistence.AvgLapByCircuit;
 import persistence.DangerAndAttribution;
 import ui.Prompter;
 
+/**
+ * QueryServices.
+ * Main Utility class that helps with executing defined queries
+ */
 public class QueryServices {
 
+    // static store for user passed arguments
     private static String USERARG;
 
     // hash map to organise queries
+
+    /**
+     * Map to organise queries
+     * Key -> console command
+     * Value -> function corresponding to command
+     */
     private static final HashMap<String, Runnable> map = new HashMap<>(Map.of(
             "h", () -> printHelp(),
             "Queries", () -> printQueries(),
@@ -24,8 +35,17 @@ public class QueryServices {
             "tables", () -> PrintTables(),
             "clear", () -> Prompter.clearConsole()));
 
+    /**
+     * method eecute UI commands.
+     * The main method that is called by the UI to perform user commands
+     * 
+     * @param cmd command to run
+     * @param arg argument passed with command
+     * @return true if command was recognised and executed | false otherwise
+     */
     public static boolean Execute(String cmd, String arg) {
 
+        // set static field
         USERARG = arg;
 
         boolean commandFound = false;
@@ -42,6 +62,7 @@ public class QueryServices {
         return commandFound;
     }
 
+    // print the help prompt
     private static void printHelp() {
         System.out.println("Available commands:");
         System.out.println("h              - Display help");
@@ -54,12 +75,14 @@ public class QueryServices {
         System.out.println("q          - Quit");
     }
 
+    // print the list of queries
     private static void printQueries() {
         System.out.println("Available queries:");
         System.out.println("0              - Danger and Attrition Query");
         System.out.println("1              - Average Lap Time by Circuit Query");
     }
 
+    // create tables
     private static void CreateTables() {
         try {
             TableServices.CreateTables();
@@ -70,6 +93,7 @@ public class QueryServices {
 
     }
 
+    // insert data into tables
     private static void InsertData() {
         try {
             TableServices.InsertData();
@@ -79,6 +103,11 @@ public class QueryServices {
 
     }
 
+    /**
+     * Select all from a specified table
+     * 
+     * @param arg table name passed as argument
+     */
     private static void SelectData(String arg) {
         if (arg.isEmpty()) {
             System.out.println(
@@ -95,6 +124,7 @@ public class QueryServices {
         }
     }
 
+    // print table names
     private static void PrintTables() {
         for (TableName table : TableName.values()) {
             System.out.println(table);
