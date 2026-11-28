@@ -6,6 +6,7 @@ import java.util.Map;
 
 import persistence.AvgLapByCircuit;
 import persistence.DangerAndAttribution;
+import persistence.FastestPitStops;
 import ui.Prompter;
 
 /**
@@ -29,6 +30,7 @@ public class QueryServices {
             "Queries", () -> printQueries(),
             "0", () -> (new DangerAndAttribution()).executeQuery(),
             "1", () -> (new AvgLapByCircuit()).executeQuery(),
+            "2", () -> (new FastestPitStops()).executeQuery(),
             "create", () -> CreateTables(),
             "insert", () -> InsertData(),
             "select", () -> SelectData(USERARG),
@@ -80,6 +82,7 @@ public class QueryServices {
         System.out.println("Available queries:");
         System.out.println("0              - Danger and Attrition Query");
         System.out.println("1              - Average Lap Time by Circuit Query");
+        System.out.println("2              - Fastest Pit Stops");
     }
 
     // create tables
