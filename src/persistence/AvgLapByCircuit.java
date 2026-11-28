@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 import logic.DBConnection;
 import logic.TableName;
+import ui.Printer;
+import ui.util.TabData;
 
 public class AvgLapByCircuit extends Query {
 
@@ -25,13 +27,28 @@ public class AvgLapByCircuit extends Query {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                String circuitName = rs.getString("circuit_name");
-                double avgLapMilliseconds = rs.getDouble("avg_lap_milliseconds");
+            // output configuration
+            TabData[] colData = {
+                    new TabData("circuit_name", 45),
+                    new TabData("avg_lap_milliseconds", 22)
+            };
 
-                System.out.println("Circuit: " + circuitName +
-                        ", Average Lap Time: " + avgLapMilliseconds + " ms");
+            // print output header
+            int tableWidth = Printer.PrintHeader(colData);
+
+            while (rs.next()) {
+
+                // convert output to string
+                String[] colValues = { rs.getString(1), "%.4f ms".formatted(rs.getDouble(2)) };
+
+                // print output row
+                Printer.PrintRow(colData, colValues);
+
             }
+
+            // print output footer
+            Printer.PrintFooter(tableWidth);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 import logic.DBConnection;
 import logic.TableName;
+import ui.Printer;
+import ui.util.TabData;
 
 public class DangerAndAttribution extends Query {
 
@@ -24,11 +26,27 @@ public class DangerAndAttribution extends Query {
                 "ORDER BY total_dnfs DESC";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
+
+            // output configuration
+            TabData[] colData = {
+                    new TabData("circuit_name", 45),
+                    new TabData("total_dnfs", 15)
+            };
+
+            // print output header
+            int tableWidth = Printer.PrintHeader(colData);
+
             while (rs.next()) {
-                String circuitName = rs.getString("circuit_name");
-                int totalDnfs = rs.getInt("total_dnfs");
-                System.out.println("Circuit: " + circuitName + ", Total DNFs: " + totalDnfs);
+                // convert output to string
+                String[] colValues = { rs.getString(1), rs.getInt(2) + "" };
+
+                // print output row
+                Printer.PrintRow(colData, colValues);
             }
+
+            // print output footer
+            Printer.PrintFooter(tableWidth);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
