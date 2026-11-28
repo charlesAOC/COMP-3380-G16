@@ -28,10 +28,8 @@ public class UserInterface {
                 break;
             }
 
-            // System.out.println("arggg -> ", arg);
-
             // execute query with args
-            boolean cmdExecuted = QueryServices.Execute(command);
+            boolean cmdExecuted = QueryServices.Execute(command, arg);
 
             // if command not recognized
             if (!cmdExecuted) {

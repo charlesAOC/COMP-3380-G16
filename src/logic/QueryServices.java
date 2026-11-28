@@ -22,9 +22,9 @@ public class QueryServices {
             "select", () -> SelectData(USERARG),
             "tables", () -> PrintTables()));
 
-    public static boolean Execute(String cmd) {
+    public static boolean Execute(String cmd, String arg) {
 
-        USERARG = cmd;
+        USERARG = arg;
 
         boolean commandFound = false;
 
