@@ -3,6 +3,7 @@ package ui;
 import java.util.Scanner;
 
 import logic.QueryServices;
+import logic.ScannerHelper;
 
 public class UserInterface {
 
@@ -10,6 +11,9 @@ public class UserInterface {
 
         // init scanner and prompt user
         Scanner console = new Scanner(System.in);
+
+        // pass scanner to others that may need it
+        ScannerHelper.SetScanner(console);
 
         System.out.println("Welcome! Type h for help.");
         System.out.print("db > ");

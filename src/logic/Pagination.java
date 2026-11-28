@@ -60,16 +60,15 @@ public class Pagination {
      * getter for isTerminated
      * 
      * @return false if the querying is still printing, true terminates
-     *         this returning true ends the query
      */
     public boolean isTerminated() {
         return isTerminated;
     }
 
     /**
-     * check if the query printing is at page limit
+     * check if the query printing is at the page limit
      * 
-     * @return true if at page limit false otherwise
+     * @return true if at page limit | false otherwise
      */
     private boolean isPageEnd() {
         ++this.count;
@@ -79,38 +78,32 @@ public class Pagination {
     }
 
     /**
-     * helper method to control paginatin with user input
+     * helper method to control paginating with user input.
+     * if the user enter 'd' print the next page
+     * if the user enter 'a' stop the process
      */
     private void nextPageOrExit() {
 
-        // initialize scanner
-        Scanner scanner = new Scanner(System.in);
-
-        // init scanner for user input
         try {
-            boolean inputing = true;
+            // fetch same scanner as the one running in the UI
+            Scanner scanner = ScannerHelper.GetScanner();
 
-            // input loop (loop through invalid inputs)
-            while (inputing) {
+            // prompt for user
+            System.out.print("Enter 'A' to quit | Enter 'D' to continue: ");
 
-                // prompt for user
+            // read the line
+            String input = scanner.nextLine().trim();
+
+            // keep prompting the user for invalid entries
+            while (input.equals("a") && input.equals("d")) {
                 System.out.print("Enter 'A' to quit | Enter 'D' to continue: ");
-                String input = scanner.nextLine();// read line
-
-                // process input
-                if (input.equals("d"))
-                    return;
-                else if (input.equals("a")) {
-                    this.isTerminated = true; // terminate query loop
-                    inputing = false; // terminate input loop
-
-                    // close scanner (java is screaming at me)
-                    scanner.close();
-                }
+                input = scanner.nextLine().trim();// read line
             }
 
-            // close scanner
-            scanner.close();
+            if (input.equals("a")) {
+                this.isTerminated = true; // terminate query loop
+            }
+
         } catch (NullPointerException e) {
             System.out.println(e.getMessage()); // exception with io
         }
