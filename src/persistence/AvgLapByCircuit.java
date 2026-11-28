@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import logic.DBConnection;
+import logic.TableName;
 
 public class AvgLapByCircuit extends Query {
 
@@ -15,9 +16,9 @@ public class AvgLapByCircuit extends Query {
 
         String query = "SELECT ci.name AS circuit_name, " +
                 "AVG(CAST(l.milliseconds AS FLOAT)) AS avg_lap_milliseconds " +
-                "FROM " + table("lap_time") + " l " +
-                "JOIN " + table("race") + " ra ON l.raceId = ra.raceId " +
-                "JOIN " + table("circuit") + " ci ON ra.circuitId = ci.circuitId " +
+                "FROM " + table(TableName.LAP_TIME) + " l " +
+                "JOIN " + table(TableName.RACE) + " ra ON l.raceId = ra.raceId " +
+                "JOIN " + table(TableName.CIRCUIT) + " ci ON ra.circuitId = ci.circuitId " +
                 "GROUP BY ci.circuitId, ci.name " +
                 "ORDER BY avg_lap_milliseconds ASC";
 

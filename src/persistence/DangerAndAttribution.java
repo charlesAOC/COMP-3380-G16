@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import logic.DBConnection;
+import logic.TableName;
 
 public class DangerAndAttribution extends Query {
 
@@ -14,10 +15,10 @@ public class DangerAndAttribution extends Query {
         Connection connection = DBConnection.GetConnection();
 
         String query = "SELECT ci.name AS circuit_name, COUNT(r.resultId) AS total_dnfs " +
-                "FROM " + table("result") + " r " +
-                "JOIN " + table("race") + " ra ON r.raceId = ra.raceId " +
-                "JOIN " + table("circuit") + " ci ON ra.circuitId = ci.circuitId " +
-                "JOIN " + table("status") + " s ON r.statusId = s.statusId " +
+                "FROM " + table(TableName.RESULT) + " r " +
+                "JOIN " + table(TableName.RACE) + " ra ON r.raceId = ra.raceId " +
+                "JOIN " + table(TableName.CIRCUIT) + " ci ON ra.circuitId = ci.circuitId " +
+                "JOIN " + table(TableName.STATUS) + " s ON r.statusId = s.statusId " +
                 "WHERE s.status != 'Finished' AND s.status NOT LIKE '+%' " +
                 "GROUP BY ci.circuitId, ci.name " +
                 "ORDER BY total_dnfs DESC";
