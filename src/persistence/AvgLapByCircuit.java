@@ -10,6 +10,10 @@ import logic.TableName;
 import ui.Printer;
 import ui.util.TabData;
 
+/**
+ * AvgLapByCircuit
+ * Average lap by circuit.
+ */
 public class AvgLapByCircuit extends Query {
 
     @Override

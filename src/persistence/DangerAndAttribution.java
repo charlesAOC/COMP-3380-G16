@@ -10,6 +10,10 @@ import logic.TableName;
 import ui.Printer;
 import ui.util.TabData;
 
+/**
+ * DangerAndAttribution
+ * Danger & Attribution
+ */
 public class DangerAndAttribution extends Query {
 
     @Override
