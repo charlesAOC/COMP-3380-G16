@@ -1,6 +1,7 @@
 package persistence;
 
 import logic.AccountHelper;
+import logic.TableName;
 
 /**
  * Query
@@ -17,7 +18,7 @@ public abstract class Query {
      * @param tableName name of the table being queried
      * @return string respresenting the SQL server table name
      */
-    protected String table(String tableName) {
-        return AccountHelper.getUsername() + "." + tableName;
+    protected String table(TableName tableName) {
+        return AccountHelper.getUsername() + "." + tableName.getTableName();
     }
 }
